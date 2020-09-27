@@ -1,4 +1,8 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
@@ -6,10 +10,13 @@ android {
 
     defaultConfig {
         applicationId "com.csj.bestidphoto"
-        minSdkVersion 19
+        minSdkVersion project.ext.minSdkVersion
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -19,6 +26,22 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    repositories {
+        jcenter()
+        mavenCentral()
+
+    }
+
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
     }
 
 }
@@ -36,4 +59,45 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+
+    implementation 'me.jessyan:autosize:1.2.1'
+
+    // 展示大图
+    implementation 'com.sunfusheng:GlideImageView:2.1.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    //recyclerview
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview-selection:1.1.0-rc01'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+
+    //dex分包
+    implementation 'androidx.multidex:multidex:2.0.0'
+
+    implementation project(':moduleNiceimageview')
+    implementation project(path: ':libbase')
+    implementation project(':qmui')
+    implementation project(':moduleMzbanner')
+    implementation project(':moduleImagepicker')
+    implementation project(path: ':mvpbase')
+    implementation project(path: ':moduleFlycoTabLayout')
+
+    //鲁班压缩
+    implementation 'top.zibin:Luban:1.1.3'
+
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'org.greenrobot:greendao:3.2.2'
+    configurations.all {
+        resolutionStrategy {
+            force 'com.github.bumptech.glide:glide:4.9.0'
+        }
+    }
+
 }

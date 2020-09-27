@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpGuide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnStart"
+        />
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="26dp"
+        android:paddingLeft="27dp"
+        android:paddingRight="27dp"
+        android:background="@drawable/bt_gradient_login"
+        android:textSize="15sp"
+        android:text="立即体验"
+        android:layout_above="@+id/indicatorScrollView"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+
+    <com.csj.bestidphoto.view.guide.CountdownView
+        android:id="@+id/countdownView"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+        android:layout_margin="13dp"
+        app:countdownTime="5"
+        app:progressText="@string/tiaoguo"
+        app:progressTextColor="#FF4081"
+        app:progressTextSize="13sp"
+        app:ringColor="#3F51B5"
+        app:ringWidth="10" />
+
+    <com.csj.bestidphoto.view.guide.IndicatorScrollView
+        android:id="@+id/indicatorScrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        app:drawableMargin="16dp"
+        app:drawableSelect="@mipmap/ic_dot_default"
+        app:drawableSize="8dp"
+        app:drawableUnSelect="@mipmap/ic_dot_selected"
+        app:isScroll="true" />
+
+</RelativeLayout>

@@ -12,14 +12,9 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.csj.bestidphoto.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_mine"
+        android:name="com.csj.bestidphoto.ui.mine.MineFragment"
         android:label="@string/title_album"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_mine" />
 
-<!--    <fragment-->
-<!--        android:id="@+id/navigation_notifications"-->
-<!--        android:name="com.csj.bestidphoto.ui.notifications.NotificationsFragment"-->
-<!--        android:label="@string/title_notifications"-->
-<!--        tools:layout="@layout/fragment_notifications" />-->
 </navigation>

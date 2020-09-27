@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <declare-styleable name="TitleBar" tools:ignore="ResourceName">
+        <!-- 整体样式 -->
+        <attr name="barStyle">
+            <enum name="light" value="0x10" />
+            <enum name="night" value="0x20" />
+            <enum name="transparent" value="0x30" />
+            <enum name="ripple" value="0x40" />
+        </attr>
+        <!-- 中间 -->
+        <attr name="title" format="string" />
+        <attr name="titleColor" format="color" />
+        <attr name="titleSize" format="dimension" />
+        <!-- 左边 -->
+        <attr name="leftTitle" format="string" />
+        <attr name="leftIcon" format="reference" /><!-- leftIcon 优先于 backButton -->
+        <attr name="backButton" format="boolean" /><!-- 返回按钮（默认开） -->
+        <attr name="leftColor" format="color" />
+        <attr name="leftSize" format="dimension" />
+        <attr name="leftPadding" format="dimension" />
+        <attr name="leftBackground" format="reference|color" />
+        <!-- 右边 -->
+        <attr name="rightTitle" format="string" />
+        <attr name="rightIcon" format="reference" />
+        <attr name="rightColor" format="color" />
+        <attr name="rightSize" format="dimension" />
+        <attr name="rightPadding" format="dimension" />
+        <attr name="rightBackground" format="reference|color" />
+        <!-- 分割线 -->
+        <attr name="lineVisible" format="boolean" />
+        <attr name="lineColor" format="reference|color" />
+        <attr name="lineSize" format="dimension" />
+        <!-- 是否需要顶起，用于沉浸式-->
+        <attr name="isTopMargin" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="HorizontalCommonMenu">
+        <attr name="menuText" format="string" />
+        <attr name="menuTextTextSize" format="integer" />
+        <attr name="menuTextColor" format="color" />
+        <attr name="rightText" format="string" />
+        <attr name="rightTextSize" format="integer" />
+        <attr name="rightTextColor" format="color" />
+        <attr name="leftImg" format="reference" />
+        <attr name="rightImg" format="reference" />
+        <attr name="left_paddingleft" format="integer" />
+        <attr name="right_marginRight" format="integer" />
+        <attr name="isrightImg" format="boolean" />
+        <attr name="rightheadImg" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="VerticalView">
+        <attr name="vText" format="string" />
+        <attr name="vTextSize" format="integer" />
+        <attr name="vTextColor" format="color" />
+        <attr name="vImg" format="reference" />
+        <attr name="vMarginTop" format="integer" />
+        <attr name="vImgSize" format="integer" />
+        <attr name="tvMaxWidth" format="integer" />
+        <attr name="tvMaxLines" format="integer" />
+        <attr name="vRadius" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="UnreadMsg">
+        <!--        <attr name="unreadNum" format="integer" />-->
+        <attr name="unreadTextColor" format="color" />
+        <attr name="unreadTextSize" format="integer" />
+        <attr name="uLogo" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="XRecycleView">
+        <!-- 拉动方向设置 -->
+        <attr name="pullEdge">
+            <enum name="top" value="0x02" />
+            <enum name="bottom" value="0x08" />
+            <enum name="right" value="0x04" />
+            <enum name="left" value="0x01" />
+            <enum name="all" value="0" />
+        </attr>
+        <attr name="swipeEable" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="EasySwipeMenuLayout">
+        <attr name="leftMenuView" format="reference" />
+        <attr name="rightMenuView" format="reference" />
+        <attr name="contentView" format="reference" />
+        <attr name="canRightSwipe" format="boolean" />
+        <attr name="canLeftSwipe" format="boolean" />
+        <attr name="fraction" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="MRecyclerView">
+        <attr name="verticallyDisallowIntercept" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundRectProgressBar">
+        <attr name="cbarRoundColor" format="color"/>
+        <attr name="cbarProgressColor" format="color"/>
+        <attr name="cbarFillColor" format="color"/>
+        <attr name="cbarOrientation">
+            　　<enum name="HORIZONTAL" value="0"></enum>
+            　　<enum name="VERTICAL" value="1"></enum>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="ProportionBar">
+        <attr name="strokeColor" format="color"/>
+        <attr name="OrientationModel">
+            　　<enum name="HORIZONTAL" value="0"></enum>
+            　　<enum name="VERTICAL" value="1"></enum>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="IndicatorScrollView">
+        <!--图片大小-->
+        <attr name="drawableSize" format="dimension"/>
+        <!--图片之间的间隔-->
+        <attr name="drawableMargin" format="dimension"/>
+        <!--是否显示滑动过程-->
+        <attr name="isScroll" format="boolean"/>
+        <!--图片个数-->
+        <attr name="scrollCount" format="integer"/>
+        <!--滑动选择图片-->
+        <attr name="drawableSelect" format="reference"/>
+        <!--滑动背景图片-->
+        <attr name="drawableUnSelect" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="CountDownView">
+        <!--颜色-->
+        <attr name="ringColor" format="color" />
+        <!-- 进度文本的字体大小 -->
+        <attr name="progressTextSize" format="dimension" />
+        <!-- 圆环宽度 -->
+        <attr name="ringWidth" format="float" />
+        <!--进度文本颜色-->
+        <attr name="progressTextColor" format="color"/>
+        <!-- 进度文本-->
+        <attr name="progressText" format="dimension" />
+        <!--倒计时-->
+        <attr name="countdownTime" format="integer"/>
+    </declare-styleable>
+
+</resources>

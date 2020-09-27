@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="splash_icon">
+        <item>@mipmap/splash_iv_1</item>
+        <item>@mipmap/splash_iv_2</item>
+        <item>@mipmap/splash_iv_3</item>
+        <item>@mipmap/splash_iv_4</item>
+    </array>
+</resources>

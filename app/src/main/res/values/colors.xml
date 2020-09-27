@@ -3,4 +3,9 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="color_loading_bg">#80333333</color>
+    <color name="color_flowbtn_bg">#fff2f2f2</color>
+    <color name="black">#ff000000</color>
+    <color name="title_bar_bg">#FBFBFB</color>
 </resources>

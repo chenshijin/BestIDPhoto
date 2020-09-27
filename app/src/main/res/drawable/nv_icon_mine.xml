@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@mipmap/nv_mine" android:state_checked="false"></item>
+    <item android:drawable="@mipmap/nv_mine_pre" android:state_checked="true"></item>
+</selector>
