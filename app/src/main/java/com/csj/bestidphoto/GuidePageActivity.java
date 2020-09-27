@@ -2,11 +2,10 @@ package com.csj.bestidphoto;
 
 import android.animation.ArgbEvaluator;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,13 +15,17 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.csj.bestidphoto.base.BaseActivity;
+import com.csj.bestidphoto.utils.StatusCompat;
 import com.csj.bestidphoto.view.guide.CountdownView;
 import com.csj.bestidphoto.view.guide.IndicatorScrollView;
+import com.maoti.lib.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_DRAGGING;
 
 public class GuidePageActivity extends BaseActivity {
 
@@ -41,11 +44,16 @@ public class GuidePageActivity extends BaseActivity {
     private TypedArray mImgIDs;
     private List<View> ViewList;
     private ArgbEvaluator mMArgbEvaluator;
+    private int mViewPagerIndex;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        noTitleBar();
-        super.onCreate(savedInstanceState);
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        noTitleBar();
+//        super.onCreate(savedInstanceState);
+//    }
+
+    public void setStatusBarColor() {
+        StatusCompat.setStatusBarColor(this,  Color.TRANSPARENT);
     }
 
     @Override
@@ -65,6 +73,7 @@ public class GuidePageActivity extends BaseActivity {
         for (int i = 0; i < mImgIDs.length(); i++) {
 //            Log.e(TAG," "+mImgIDs.getResourceId(i,0));
             ImageView imageView = new ImageView(getApplicationContext());
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageResource(mImgIDs.getResourceId(i, 0));
             ViewList.add(imageView);
         }
@@ -79,12 +88,19 @@ public class GuidePageActivity extends BaseActivity {
                 //设置页面背景色
 //                int color = (int) mMArgbEvaluator.evaluate(positionOffset, colorBg[position % colorBg.length],colorBg[(position + 1) % colorBg.length]);
 //                mRootView.setBackgroundColor(color);
+                if((mViewPagerIndex == (ViewList.size() - 1)) && (mViewPagerIndex == position)){
+                    LogUtil.i(TAG,"正在向左滑动");
+                    openPage(MainActivity.class);
+                    finish();
+                }else{
+                    LogUtil.i(TAG,"正在向右滑动");
+                }
             }
 
             @Override
             public void onPageSelected(int position) {
                 if (position >= ViewList.size() - 1) {
-                    btnStart.setVisibility(View.VISIBLE);
+                    btnStart.setVisibility(View.GONE);
                     //取消定时
 //                    CountdownView.startCountDown();
 //                    CountdownView.setVisibility(View.VISIBLE);
@@ -104,7 +120,9 @@ public class GuidePageActivity extends BaseActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                if(state == SCROLL_STATE_DRAGGING){//state有三种状态下文会将，当手指刚触碰屏幕时state的值为1，我们就在这个时候给mViewPagerIndex 赋值。
+                    mViewPagerIndex = vpGuide.getCurrentItem();
+                }
             }
         });
         btnStart.setOnClickListener(new View.OnClickListener() {
@@ -116,11 +134,11 @@ public class GuidePageActivity extends BaseActivity {
         });
     }
 
-    private void noTitleBar() {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);//继承Activity中使用
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-    }
+//    private void noTitleBar() {
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);//继承Activity中使用
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//    }
 
     private class GuidePagesAdapter extends PagerAdapter {
         @Override
