@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.home.HomeFragment"
+    >
+    <com.zhouwei.mzbanner.MZBannerView
+        android:id="@+id/banner_normal"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginBottom="16dp"
+        app:canLoop="true"
+        app:indicatorAlign="center"
+        app:middle_page_cover="false"
+        app:open_mz_mode="false"
+        />
+
+    <TextView
+        android:id="@+id/allSizeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="全部尺寸"
+        android:layout_below="@+id/banner_normal"
+        android:textColor="#666666"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:layout_marginLeft="78dp"
+        android:drawableTop="@mipmap/logo_allsize"
+        android:drawablePadding="10dp"
+        />
+
+    <TextView
+        android:id="@+id/photoEditorTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="照片编辑器"
+        android:layout_below="@+id/banner_normal"
+        android:textColor="#666666"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="78dp"
+        android:drawableTop="@mipmap/logo_photoeditot"
+        android:drawablePadding="10dp"
+        />
+
+</RelativeLayout>

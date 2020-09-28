@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.qmuiteam.qmui.widget.pullLayout.QMUIPullLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pull_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:qmui_is_target="true"
+        android:overScrollMode="never"
+        />
+
+    <com.qmuiteam.qmui.widget.pullLayout.QMUIPullRefreshView
+        android:id="@+id/pull_refresh_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:qmui_action_view_init_offset="-20dp"
+        app:qmui_can_over_pull="true"
+        app:qmui_need_receive_fling_from_target_view="false"
+        app:qmui_pull_edge="top"
+        app:qmui_pull_rate="0.45"
+        app:qmui_target_view_trigger_offset="wrap" />
+
+<!--    <com.sowell.maoti.view.BallRefreshHeader-->
+<!--        android:id="@+id/pull_refresh_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:qmui_action_view_init_offset="-20dp"-->
+<!--        app:qmui_can_over_pull="true"-->
+<!--        app:qmui_need_receive_fling_from_target_view="false"-->
+<!--        app:qmui_pull_edge="top"-->
+<!--        app:qmui_pull_rate="0.45"-->
+<!--        app:qmui_target_view_trigger_offset="wrap" />-->
+
+    <com.qmuiteam.qmui.widget.pullLayout.QMUIPullLoadMoreView
+        android:id="@+id/pull_loadmore_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:qmui_action_view_init_offset="0dp"
+        app:qmui_can_over_pull="true"
+        app:qmui_need_receive_fling_from_target_view="true"
+        app:qmui_pull_edge="bottom"
+        app:qmui_pull_rate="0.45"
+        app:qmui_target_view_trigger_offset="wrap" />
+
+</com.qmuiteam.qmui.widget.pullLayout.QMUIPullLayout>

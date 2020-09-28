@@ -1,5 +1,6 @@
 package com.csj.bestidphoto;
 
+import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -19,11 +20,14 @@ import com.csj.bestidphoto.utils.StatusCompat;
 import com.csj.bestidphoto.view.guide.CountdownView;
 import com.csj.bestidphoto.view.guide.IndicatorScrollView;
 import com.maoti.lib.utils.LogUtil;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_DRAGGING;
 
@@ -63,6 +67,7 @@ public class GuidePageActivity extends BaseActivity {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        checkPermissions();
         indicatorScrollView.setmScrollCount(getResources().obtainTypedArray(R.array.splash_icon).length());
         vpGuide.addOnPageChangeListener(indicatorScrollView);
         mMArgbEvaluator = new ArgbEvaluator();
@@ -130,6 +135,36 @@ public class GuidePageActivity extends BaseActivity {
             public void onClick(View v) {
                 openPage(MainActivity.class);
                 finish();
+            }
+        });
+    }
+
+    private void checkPermissions() {
+        RxPermissions rxPermission = new RxPermissions(this);
+        //请求权限全部结果
+        rxPermission.request(
+                //添加需要的权限
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        ).subscribe(new Observer<Boolean>() {//订阅
+            @Override
+            public void onSubscribe(Disposable d) {
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onComplete() {
+
             }
         });
     }

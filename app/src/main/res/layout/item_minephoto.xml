@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F7F7F7"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_item_nearhot"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/headPhotoIv"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/head_default"
+            android:layout_marginLeft="20dp"
+            app:riv_border_color="#333333"
+            app:riv_border_width="0dip"
+            app:riv_corner_radius="3dip"
+            app:riv_mutate_background="true"
+            app:riv_oval="false"
+            />
+
+        <TextView
+            android:id="@+id/sizeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="尺寸"
+            android:layout_marginTop="13dp"
+            android:layout_toRightOf="@+id/headPhotoIv"
+            android:textColor="#333333"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/sizeInfoTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sizeTv"
+            android:layout_alignLeft="@+id/sizeTv"
+            android:layout_marginTop="10dp"
+            android:text="295*413px | 25*25mm"
+            android:textColor="#999999"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+</FrameLayout>
