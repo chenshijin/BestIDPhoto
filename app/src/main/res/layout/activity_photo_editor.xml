@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment"
+    android:fitsSystemWindows="true"
+    >
+
+    <com.qmuiteam.qmui.widget.QMUITopBar
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/qmui_topbar_height"
+        android:background="@color/qmui_config_color_transparent"
+        />
+
+    <ImageView
+        android:id="@+id/photoIv"
+        android:layout_width="335dp"
+        android:layout_height="453dp"
+        android:scaleType="fitXY"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/titleBar"
+        android:background="@color/qmui_config_color_red"
+        android:layout_centerHorizontal="true"
+        />
+
+<!--    <com.csj.bestidphoto.view.PhotoBgColorsBar-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_below="@+id/photoIv"-->
+<!--        android:layout_above="@+id/line"-->
+<!--        />-->
+
+    <com.csj.bestidphoto.view.PhotoBeautyBar
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/photoIv"
+        android:layout_above="@+id/line"/>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#D8D8D8"
+        android:layout_above="@+id/bottomLL"
+        />
+
+    <LinearLayout
+        android:id="@+id/bottomLL"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+            <CheckBox
+                android:id="@+id/cutCb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="裁剪"
+                android:layout_gravity="center"
+                android:button="@drawable/check_cut_drawable_left"
+                android:gravity="center_vertical"
+                android:textColor="@color/check_text_colors"
+                android:paddingLeft="10dp"
+                android:textSize="13sp"
+                />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+            <CheckBox
+                android:id="@+id/beautyCb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="美颜"
+                android:layout_gravity="center"
+                android:button="@drawable/check_beauty_drawable_left"
+                android:gravity="center_vertical"
+                android:textColor="@color/check_text_colors"
+                android:paddingLeft="10dp"
+                android:textSize="13sp"
+                />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+            <CheckBox
+                android:id="@+id/bgCb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="背景"
+                android:button="@drawable/check_bg_drawable_left"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:textColor="@color/check_text_colors"
+                android:paddingLeft="10dp"
+                android:textSize="13sp"
+                />
+        </FrameLayout>
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

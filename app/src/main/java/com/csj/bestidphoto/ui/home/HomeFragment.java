@@ -3,12 +3,17 @@ package com.csj.bestidphoto.ui.home;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.csj.bestidphoto.R;
 import com.csj.bestidphoto.base.BaseFragment;
+import com.csj.bestidphoto.ui.PhotoEditorActivity;
+import com.csj.bestidphoto.ui.PhotoStandardModelDetailActivity;
 import com.csj.bestidphoto.ui.home.adapter.NearHotListAdapter;
 import com.csj.bestidphoto.ui.home.bean.NearHotBean;
 import com.csj.bestidphoto.view.XRecycleView;
@@ -42,6 +47,12 @@ public class HomeFragment extends BaseFragment {
 
         titleBar.setTitle("主页");
         test();
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                startActivity(PhotoStandardModelDetailActivity.class);//PhotoEditorActivity
+            }
+        });
         return null;
     }
 

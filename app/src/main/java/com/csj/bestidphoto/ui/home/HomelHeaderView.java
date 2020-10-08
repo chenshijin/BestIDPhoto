@@ -22,7 +22,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * @author kenny
@@ -41,7 +40,6 @@ public class HomelHeaderView extends FrameLayout {
     TextView photoEditorTv;
 
     private Context mContext;
-    private Unbinder unbinder;
 
     public HomelHeaderView(Context context) {
         this(context, null);
@@ -59,7 +57,7 @@ public class HomelHeaderView extends FrameLayout {
 
     private void initView() {
         inflate(getContext(), R.layout.homeheader, this);
-        unbinder = ButterKnife.bind(this, this);
+        ButterKnife.bind(this, this);
 //            mNormalBanner.setIndicatorRes(R.color.colorAccent, R.color.colorPrimary);
         List<TopBannerBean> list = new ArrayList<>();
         TopBannerBean bean;
@@ -87,9 +85,6 @@ public class HomelHeaderView extends FrameLayout {
     }
 
     public void onDestory() {
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
 
 //        if (mWebView != null) {
 //            mWebView.onDestory();

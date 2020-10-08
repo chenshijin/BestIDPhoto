@@ -1,0 +1,85 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+
+        release {//阿里云服务器
+            buildConfigField "boolean", "IS_DEBUG", "false"//是否开启打印日志
+            buildConfigField("String", "BASE_URL", "\"https://api.maoti.com/\"")// API接口访问地址
+            buildConfigField("String", "IM", "\"ws://im.maoti.com:8880/v2/getConnection?p=android\"")// IM访问地址
+            buildConfigField("String", "SHARE_URL", "\"https://m.maoti.com/dist/%s.html?id=%s\"")// 第三方分享地址
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {//开发服务器
+            buildConfigField "boolean", "IS_DEBUG", "true"//是否开启打印日志
+
+//            buildConfigField("String", "BASE_URL", "\"http://10.0.3.201:8000/\"")// API接口访问地址
+//            buildConfigField("String", "IM", "\"ws://10.0.3.197:8880/v2/getConnection?p=android\"")// IM访问地址
+
+            buildConfigField("String", "BASE_URL", "\"http://101.133.165.137:9000/\"")// API接口访问地址
+            buildConfigField("String", "IM", "\"ws://10.0.3.190:8880/v2/getConnection?p=android\"")// IM访问地址
+            buildConfigField("String", "SHARE_URL", "\"http://m.web.next.maoti.com/share/%s.html?id=%s\"")//第三方分享地址
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        innertest {//测试服务器
+            buildConfigField "boolean", "IS_DEBUG", "true"//是否开启打印日志
+            buildConfigField("String", "BASE_URL", "\"http://10.0.3.190:8000/\"")// API接口访问地址
+            buildConfigField("String", "IM", "\"ws://10.0.3.190:8880/v2/getConnection?p=android\"")// IM访问地址
+            buildConfigField("String", "SHARE_URL", "\"http://m.web.next.maoti.com/share/%s.html?id=%s\"")
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            matchingFallbacks = ['debug']//库项目没有innertest时默认指定用debug
+        }
+
+        customtest {//个人调试服务器
+            buildConfigField "boolean", "IS_DEBUG", "true"//是否开启打印日志
+            buildConfigField("String", "BASE_URL", "\"http://10.0.0.74:8081/\"")// API接口访问地址
+            buildConfigField("String", "IM", "\"ws://10.0.3.108:8880/v2/getConnection?p=android\"")// IM访问地址
+            buildConfigField("String", "SHARE_URL", "\"http://m.web.next.maoti.com/share/%s.html?id=%s\"")
+         
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            matchingFallbacks = ['debug']//库项目没有customtest时默认指定用debug
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    api 'org.greenrobot:eventbus:3.2.0'
+    api 'com.squareup.retrofit2:retrofit:2.7.2'
+    api 'com.squareup.retrofit2:converter-gson:2.7.2'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.7.2'
+    api 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    //rxpermissions
+    api 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    api 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+    api files('libs/lamfire-2.1.0.jar')
+    // 磁盘缓存
+    implementation 'com.jakewharton:disklrucache:2.0.2'
+}

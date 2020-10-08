@@ -1,5 +1,6 @@
 package com.csj.bestidphoto;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -9,7 +10,14 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.csj.bestidphoto.base.BaseActivity;
+import com.csj.bestidphoto.comm.Config;
+import com.csj.bestidphoto.ui.PhotoEditorActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
@@ -27,6 +35,29 @@ public class MainActivity extends BaseActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);//全屏样式需屏蔽,不然会空指针
         NavigationUI.setupWithNavController(navView, navController);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
+            //添加图片返回
+            if (data != null && requestCode == Config.IMAGE_PICKER) {
+                List<ImageItem> imgs = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                if (imgs != null && imgs.size() > 0) {
+                    imgs.get(0).setKey(String.valueOf(System.currentTimeMillis()));
+                    PhotoEditorActivity.startPhotoEditorActivity(this,imgs.get(0).path);
+                }
+            }
+        } else if (resultCode == ImagePicker.RESULT_CODE_BACK) {
+            //预览图片返回
+            if (data != null && requestCode == Config.REQUEST_CODE_PREVIEW) {
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_ITEMS);
+                if (images != null) {
+
+                }
+            }
+        }
     }
 
 }
