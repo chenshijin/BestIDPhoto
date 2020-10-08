@@ -23,52 +23,52 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PhotoBeautyBar extends FrameLayout {
+public class PhotoCutBar extends FrameLayout {
     @BindView(R.id.commonXR)
     XRecycleView commonXR;
 
-    private final String[] beautyName = new String[]{"原图","磨皮","美白","瘦脸","眼睛"};
-    private final String[] beautyType = new String[]{"","Smooth_White","Smooth_White","ShapeType2","ShapeType8"};
+    private final String[] cutName = new String[]{"一寸","二寸","小一寸","小二寸","大一寸","英语四六级考试","学籍照片"};
+    private final int[] cutW = new int[]{295,413,260,413,390,144,307};
+    private final int[] cutH = new int[]{413,579,378,513,567,192,378};
     private final int[] checkDrawables = new int[]{R.mipmap.bres_check,R.mipmap.bsmooth_check,R.mipmap.bwhite_check,R.mipmap.bthinface_check,R.mipmap.beye_check};
     private final int[] unCheckDrawables = new int[]{R.mipmap.bres,R.mipmap.bsmooth,R.mipmap.bwhite,R.mipmap.bthinface,R.mipmap.beye};
     private int dp16 = Utils.dp2px(MApp.getInstance(),16F);
 
-    public PhotoBeautyBar(@NonNull Context context) {
+    public PhotoCutBar(@NonNull Context context) {
         super(context);
         initView(context);
     }
 
-    public PhotoBeautyBar(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public PhotoCutBar(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initView(context);
     }
 
-    public PhotoBeautyBar(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PhotoCutBar(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
     }
 
-    public PhotoBeautyBar(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public PhotoCutBar(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView(context);
     }
 
     private void initView(Context context) {
-        View inflate = inflate(context, R.layout.v_photo_beauty_bar, this);
+        View inflate = inflate(context, R.layout.v_photo_cut_bar, this);
         ButterKnife.bind(inflate);
         commonXR.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         initData();
     }
 
     private void initData(){
-        List<BeautyBean> datas = new ArrayList<>();
-        BeautyBean bean;
-        for(int i = 0; i < beautyName.length; i++){
-            bean = new BeautyBean();
-            bean.setBeautyName(beautyName[i]);
-            bean.setCheckLogo(checkDrawables[i]);
-            bean.setUnCheckLogo(unCheckDrawables[i]);
-            bean.setBeautyType(beautyType[i]);
+        List<CutMenuBean> datas = new ArrayList<>();
+        CutMenuBean bean;
+        for(int i = 0; i < cutName.length; i++){
+            bean = new CutMenuBean();
+            bean.setCutName(cutName[i]);
+            bean.setCutW(cutW[i]);
+            bean.setCutH(cutH[i]);
             if(i == 0){
                 bean.setCheck(true);
             }
@@ -79,35 +79,26 @@ public class PhotoBeautyBar extends FrameLayout {
         adapter.setData(datas);
     }
 
-    class BeautyBean {
-        private String beautyName;
-        private String beautyType;
-        private int checkLogo;
-        private int unCheckLogo;
+    class CutMenuBean {
+        private String cutName;
+        private int cutW;
+        private int cutH;
         private boolean isCheck = false;
 
-        public String getBeautyType() {
-            return beautyType;
+        public int getCutH() {
+            return cutH;
         }
 
-        public void setBeautyType(String beautyType) {
-            this.beautyType = beautyType;
+        public void setCutH(int cutH) {
+            this.cutH = cutH;
         }
 
-        public int getCheckLogo() {
-            return checkLogo;
+        public int getCutW() {
+            return cutW;
         }
 
-        public void setCheckLogo(int checkLogo) {
-            this.checkLogo = checkLogo;
-        }
-
-        public int getUnCheckLogo() {
-            return unCheckLogo;
-        }
-
-        public void setUnCheckLogo(int unCheckLogo) {
-            this.unCheckLogo = unCheckLogo;
+        public void setCutW(int cutW) {
+            this.cutW = cutW;
         }
 
         public boolean isCheck() {
@@ -118,16 +109,16 @@ public class PhotoBeautyBar extends FrameLayout {
             isCheck = check;
         }
 
-        public String getBeautyName() {
-            return beautyName;
+        public String getCutName() {
+            return cutName;
         }
 
-        public void setBeautyName(String beautyName) {
-            this.beautyName = beautyName;
+        public void setCutName(String cutName) {
+            this.cutName = cutName;
         }
     }
 
-    class BeautyListAdapter extends BaseRecyclerAdapter<BeautyBean> {
+    class BeautyListAdapter extends BaseRecyclerAdapter<CutMenuBean> {
 
         private Context context;
 
@@ -138,14 +129,13 @@ public class PhotoBeautyBar extends FrameLayout {
 
         @Override
         public void bindView(RecyclerViewHolder holder, int position) {
-            BeautyBean bean = getData().get(position);
-            ImageView logoIv = holder.getView(R.id.logoIv);
-            ImageView checkIv = holder.getView(R.id.checkIv);
+            CutMenuBean bean = getData().get(position);
+            FocusedCheckBox cutNameCb = holder.getView(R.id.cutNameCb);
+            TextView cutNameTv = holder.getView(R.id.cutNameTv);
 
-            TextView beautyNameTv = holder.getView(R.id.beautyNameTv);
-            checkIv.setBackgroundResource(bean.isCheck()?R.drawable.beauty_check_bg:R.drawable.beauty_uncheck_bg);
-            logoIv.setImageResource(bean.isCheck()?bean.getCheckLogo():bean.getUnCheckLogo());
-            beautyNameTv.setText(bean.getBeautyName());
+            cutNameCb.setChecked(bean.isCheck());
+            cutNameCb.setText(bean.getCutName());
+            cutNameTv.setText(bean.getCutW() + "x" + bean.getCutH() + "px");
         }
 
         OnClickListener listener = new OnClickListener() {
@@ -156,7 +146,7 @@ public class PhotoBeautyBar extends FrameLayout {
 
         @Override
         public int getLayoutId(int viewType) {
-            return R.layout.item_beauty;
+            return R.layout.item_cut_menu;
         }
 
     }

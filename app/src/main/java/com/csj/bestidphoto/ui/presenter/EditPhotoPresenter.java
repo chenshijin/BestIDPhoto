@@ -14,13 +14,42 @@ public class EditPhotoPresenter extends BasePresenter<EditPhotoCallBack.View> {
 
     public void cutPhoto(String path, int width, int height, String color) {
 
-        Retrofit.uploadPhoto(path, width, height, color, new DefaultObserver<EditPhotoResp>() {
+        Retrofit.cutPhoto(path, width, height, color, new DefaultObserver<EditPhotoResp>() {
             @Override
             public void onSuccess(ResponseResult<EditPhotoResp> result) {
                 try {
                     if (result != null && result.isSuccess()) {
                         if (isViewActive()) {
                             getView().onEditPhotoSuccess(result.getData().getImageURL());
+                        }
+                    } else {
+                        if (isViewActive()) {
+                            onException(result.getRet(), result.getMsg());
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onException(int code, String eMsg) {
+                if (isViewActive()) {
+                    onException(code, eMsg);
+                }
+            }
+        });
+    }
+
+    public void beautyPhoto(String type, String value, String imgPath) {
+
+        Retrofit.beautyPhoto(type, value, imgPath, new DefaultObserver<EditPhotoResp>() {
+            @Override
+            public void onSuccess(ResponseResult<EditPhotoResp> result) {
+                try {
+                    if (result != null && result.isSuccess()) {
+                        if (isViewActive()) {
+                            getView().onBeautyPhotoSuccess(result.getData().getImageURL());
                         }
                     } else {
                         if (isViewActive()) {

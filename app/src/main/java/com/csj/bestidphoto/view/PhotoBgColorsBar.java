@@ -53,7 +53,7 @@ public class PhotoBgColorsBar extends FrameLayout {
     }
 
     private void initView(Context context) {
-        View inflate = inflate(context, R.layout.common_xrv_h, this);
+        View inflate = inflate(context, R.layout.v_photo_bg_bar, this);
         ButterKnife.bind(inflate);
         commonXR.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         initData();

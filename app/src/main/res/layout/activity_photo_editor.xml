@@ -26,14 +26,27 @@
         android:layout_centerHorizontal="true"
         />
 
-<!--    <com.csj.bestidphoto.view.PhotoBgColorsBar-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_below="@+id/photoIv"-->
-<!--        android:layout_above="@+id/line"-->
-<!--        />-->
+    <com.csj.bestidphoto.view.PhotoBgColorsBar
+        android:id="@+id/photoBgColorsBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/photoIv"
+        android:layout_above="@+id/line"
+        android:visibility="gone"
+        />
 
     <com.csj.bestidphoto.view.PhotoBeautyBar
+        android:id="@+id/photoBeautyBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/photoIv"
+        android:layout_above="@+id/line"
+        android:visibility="gone"
+        />
+
+    <com.csj.bestidphoto.view.PhotoCutBar
+        android:id="@+id/photoCutBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
@@ -45,6 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="#D8D8D8"
+        android:layout_marginTop="20dp"
         android:layout_above="@+id/bottomLL"
         />
 

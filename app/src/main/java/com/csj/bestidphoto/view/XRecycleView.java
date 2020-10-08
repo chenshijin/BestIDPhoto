@@ -63,7 +63,7 @@ public class XRecycleView extends LinearLayout {
     }
 
     private void initView(Context context, AttributeSet attrs, int defStyle) {
-        View inflate = inflate(context, R.layout.lay_xrecycleview, this);
+        View inflate = inflate(context, R.layout.v_xrecycleview, this);
         ButterKnife.bind(inflate);
         dp50 = Utils.dipToPx(context, 30F);
         if (attrs != null) {

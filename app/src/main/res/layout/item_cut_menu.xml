@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="66dp"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    >
+    <com.csj.bestidphoto.view.FocusedCheckBox
+        android:id="@+id/cutNameCb"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:button="@null"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:background="@drawable/cut_menu_bg"
+        android:textColor="@color/cut_menu_text_colors"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        />
+
+    <TextView
+        android:id="@+id/cutNameTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="11sp"
+        android:gravity="center"
+        android:layout_marginTop="7dp"
+        android:textColor="#333333"
+        android:text="原图"
+        />
+</LinearLayout>
