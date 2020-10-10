@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.csj.bestidphoto.R;
+import com.csj.bestidphoto.ui.AllPhotoModelListActivity;
 import com.csj.bestidphoto.ui.home.bean.TopBannerBean;
 import com.csj.bestidphoto.utils.AntiShakeUtil;
 import com.csj.bestidphoto.utils.PictureUtils;
@@ -69,6 +70,14 @@ public class HomelHeaderView extends FrameLayout {
         }
         bannerNormal.setPages(list, (MZHolderCreator<BannerPaddingViewHolder>) () -> new BannerPaddingViewHolder());
         bannerNormal.start();
+
+        allSizeTv.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AllPhotoModelListActivity.startAllPhotoModelListActivity(getContext());
+            }
+        });
+
 
         photoEditorTv.setOnClickListener(new OnClickListener() {
             @Override

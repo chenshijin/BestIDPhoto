@@ -11,9 +11,44 @@ public class NearHotBean implements MultiItemEntity,Parcelable {
     public final static int HOME_ITEM_TYPE_TITLE = 2;
 
     private int itemType;
+    private String photoModelName;
+    private int pxW;
+    private int pxH;
+
+    public String getPhotoModelName() {
+        return photoModelName;
+    }
+
+    public void setPhotoModelName(String photoModelName) {
+        this.photoModelName = photoModelName;
+    }
+
+    public int getPxW() {
+        return pxW;
+    }
+
+    public void setPxW(int pxW) {
+        this.pxW = pxW;
+    }
+
+    public int getPxH() {
+        return pxH;
+    }
+
+    public void setPxH(int pxH) {
+        this.pxH = pxH;
+    }
 
     public void setItemType(int itemType) {
         this.itemType = itemType;
+    }
+
+    public NearHotBean() {
+    }
+
+    @Override
+    public int getItemType() {
+        return itemType;
     }
 
     @Override
@@ -23,12 +58,17 @@ public class NearHotBean implements MultiItemEntity,Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-    }
-
-    public NearHotBean() {
+        dest.writeInt(this.itemType);
+        dest.writeString(this.photoModelName);
+        dest.writeInt(this.pxW);
+        dest.writeInt(this.pxH);
     }
 
     protected NearHotBean(Parcel in) {
+        this.itemType = in.readInt();
+        this.photoModelName = in.readString();
+        this.pxW = in.readInt();
+        this.pxH = in.readInt();
     }
 
     public static final Creator<NearHotBean> CREATOR = new Creator<NearHotBean>() {
@@ -42,9 +82,4 @@ public class NearHotBean implements MultiItemEntity,Parcelable {
             return new NearHotBean[size];
         }
     };
-
-    @Override
-    public int getItemType() {
-        return itemType;
-    }
 }

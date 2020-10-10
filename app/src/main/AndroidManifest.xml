@@ -59,6 +59,9 @@
         <activity android:name=".ui.PhotoEditorActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".ui.AllPhotoModelListActivity"
+            android:screenOrientation="portrait"
+            />
 
         <meta-data
             android:name="design_width_in_dp"

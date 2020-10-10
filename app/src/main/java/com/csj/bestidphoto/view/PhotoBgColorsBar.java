@@ -31,6 +31,17 @@ public class PhotoBgColorsBar extends FrameLayout {
     private final String[] colorsValue = new String[]{"red","blue","white"};
     private final int[] bgDrawables = new int[]{R.drawable.bgcolor_red,R.drawable.bgcolor_blue,R.drawable.bgcolor_white};
     private int dp16 = Utils.dp2px(MApp.getInstance(),16F);
+    private BgColorListAdapter adapter;
+
+    private BgColorBean selectBean;
+
+    public BgColorBean getSelectBean() {
+        return selectBean;
+    }
+
+    public void setSelectBean(BgColorBean selectBean) {
+        this.selectBean = selectBean;
+    }
 
     public PhotoBgColorsBar(@NonNull Context context) {
         super(context);
@@ -72,9 +83,30 @@ public class PhotoBgColorsBar extends FrameLayout {
             }
             datas.add(bean);
         }
-        BgColorListAdapter adapter = new BgColorListAdapter(getContext());
+        adapter = new BgColorListAdapter(getContext());
         commonXR.setAdapter(adapter);
         adapter.setData(datas);
+        adapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View item, int position, Object data) {
+                setSelectBean((BgColorBean)data);
+                refreshMenus();
+            }
+        });
+    }
+
+    private void refreshMenus(){
+        if(getSelectBean() != null){
+            for(BgColorBean bean : adapter.getData()){
+                if(bean.colorValue.equals(getSelectBean().colorValue)){
+                    bean.setCheck(true);
+                }else{
+                    bean.setCheck(false);
+                }
+            }
+
+            adapter.notifyDataSetChanged();
+        }
     }
 
     class BgColorBean{

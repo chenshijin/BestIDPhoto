@@ -15,43 +15,60 @@
         android:background="@color/qmui_config_color_transparent"
         />
 
-    <ImageView
-        android:id="@+id/photoIv"
-        android:layout_width="335dp"
-        android:layout_height="453dp"
-        android:scaleType="fitXY"
-        android:layout_marginTop="20dp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/titleBar"
-        android:background="@color/qmui_config_color_red"
-        android:layout_centerHorizontal="true"
-        />
+        android:layout_above="@+id/menuBarFl"
+        android:scrollbars="none"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:id="@+id/photoIv"
+                android:layout_width="335dp"
+                android:layout_height="453dp"
+                android:scaleType="fitXY"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@color/qmui_config_color_red"
+                />
+        </LinearLayout>
 
-    <com.csj.bestidphoto.view.PhotoBgColorsBar
-        android:id="@+id/photoBgColorsBar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/photoIv"
-        android:layout_above="@+id/line"
-        android:visibility="gone"
-        />
+    </ScrollView>
 
-    <com.csj.bestidphoto.view.PhotoBeautyBar
-        android:id="@+id/photoBeautyBar"
+
+    <FrameLayout
+        android:id="@+id/menuBarFl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/photoIv"
+        android:layout_marginLeft="16dp"
         android:layout_above="@+id/line"
-        android:visibility="gone"
-        />
+        >
+        <com.csj.bestidphoto.view.PhotoBgColorsBar
+            android:id="@+id/photoBgColorsBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
 
-    <com.csj.bestidphoto.view.PhotoCutBar
-        android:id="@+id/photoCutBar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/photoIv"
-        android:layout_above="@+id/line"/>
+        <com.csj.bestidphoto.view.PhotoBeautyBar
+            android:id="@+id/photoBeautyBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
+
+        <com.csj.bestidphoto.view.PhotoCutBar
+            android:id="@+id/photoCutBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </FrameLayout>
 
     <View
         android:id="@+id/line"

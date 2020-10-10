@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 
@@ -20,6 +22,7 @@ import com.csj.bestidphoto.view.PhotoBeautyBar;
 import com.csj.bestidphoto.view.PhotoBgColorsBar;
 import com.csj.bestidphoto.view.PhotoCutBar;
 import com.maoti.lib.utils.LogUtil;
+import com.maoti.lib.utils.Utils;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 
 import butterknife.BindView;
@@ -71,54 +74,20 @@ public class PhotoEditorActivity extends BaseActivity<EditPhotoPresenter> implem
         findViewById(R.id.photo_edit_save).setOnClickListener(mainOnClickListener);
         ImageLoaderHelper.loadImageByGlide(photoIv, getImgPath(), -1, null);
 
+        ViewGroup.LayoutParams rlp = photoIv.getLayoutParams();
+        rlp.width = Utils.getWindowWidth(this) * 335/375;
+        rlp.height = rlp.width * 453/335;
+        photoIv.setLayoutParams(rlp);
+
         getPresenter().cutPhoto(getImgPath(), 335, 453, "red");
 
         initListener();
     }
 
     private void initListener(){
-        cutCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    photoBgColorsBar.setVisibility(View.GONE);
-                    photoBeautyBar.setVisibility(View.GONE);
-                    beautyCb.setChecked(false);
-                    bgCb.setChecked(false);
-                }else{
-                    photoCutBar.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        beautyCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    photoBgColorsBar.setVisibility(View.GONE);
-                    photoCutBar.setVisibility(View.GONE);
-                    cutCb.setChecked(false);
-                    bgCb.setChecked(false);
-                }else{
-                    photoBeautyBar.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-
-        bgCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    photoBeautyBar.setVisibility(View.GONE);
-                    photoCutBar.setVisibility(View.GONE);
-                    cutCb.setChecked(false);
-                    beautyCb.setChecked(false);
-                }else{
-                    photoBgColorsBar.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+        cutCb.setOnClickListener(mainOnClickListener);
+        beautyCb.setOnClickListener(mainOnClickListener);
+        bgCb.setOnClickListener(mainOnClickListener);
     }
 
     View.OnClickListener mainOnClickListener = new View.OnClickListener() {
@@ -131,9 +100,24 @@ public class PhotoEditorActivity extends BaseActivity<EditPhotoPresenter> implem
                 case R.id.photo_edit_save:
                     getPresenter().beautyPhoto("ShapeType8", "0.6", imgPath);
                     break;
+                case R.id.cutCb:
+                case R.id.beautyCb:
+                case R.id.bgCb:
+                    checkCb(v.getId());
+                    break;
             }
         }
     };
+
+    private void checkCb(int id){
+        cutCb.setChecked(id == R.id.cutCb?true:false);
+        beautyCb.setChecked(id == R.id.beautyCb?true:false);
+        bgCb.setChecked(id == R.id.bgCb?true:false);
+
+        photoBgColorsBar.setVisibility(id == R.id.bgCb?View.VISIBLE:View.GONE);
+        photoBeautyBar.setVisibility(id == R.id.beautyCb?View.VISIBLE:View.GONE);
+        photoCutBar.setVisibility(id == R.id.cutCb?View.VISIBLE:View.GONE);
+    }
 
     @Override
     public void onEditPhotoSuccess(String imgPath) {

@@ -33,6 +33,17 @@ public class PhotoCutBar extends FrameLayout {
     private final int[] checkDrawables = new int[]{R.mipmap.bres_check,R.mipmap.bsmooth_check,R.mipmap.bwhite_check,R.mipmap.bthinface_check,R.mipmap.beye_check};
     private final int[] unCheckDrawables = new int[]{R.mipmap.bres,R.mipmap.bsmooth,R.mipmap.bwhite,R.mipmap.bthinface,R.mipmap.beye};
     private int dp16 = Utils.dp2px(MApp.getInstance(),16F);
+    private BeautyListAdapter adapter;
+
+    private CutMenuBean selectBean;
+
+    public CutMenuBean getSelectBean() {
+        return selectBean;
+    }
+
+    public void setSelectBean(CutMenuBean selectBean) {
+        this.selectBean = selectBean;
+    }
 
     public PhotoCutBar(@NonNull Context context) {
         super(context);
@@ -69,14 +80,25 @@ public class PhotoCutBar extends FrameLayout {
             bean.setCutName(cutName[i]);
             bean.setCutW(cutW[i]);
             bean.setCutH(cutH[i]);
-            if(i == 0){
-                bean.setCheck(true);
-            }
             datas.add(bean);
         }
-        BeautyListAdapter adapter = new BeautyListAdapter(getContext());
+        adapter = new BeautyListAdapter(getContext());
         commonXR.setAdapter(adapter);
         adapter.setData(datas);
+    }
+
+    private void refreshMenus(){
+        if(getSelectBean() != null){
+            for(CutMenuBean bean : adapter.getData()){
+                if(bean.cutName.equals(getSelectBean().cutName)){
+                    bean.setCheck(true);
+                }else{
+                    bean.setCheck(false);
+                }
+            }
+
+            adapter.notifyDataSetChanged();
+        }
     }
 
     class CutMenuBean {
@@ -135,12 +157,17 @@ public class PhotoCutBar extends FrameLayout {
 
             cutNameCb.setChecked(bean.isCheck());
             cutNameCb.setText(bean.getCutName());
-            cutNameTv.setText(bean.getCutW() + "x" + bean.getCutH() + "px");
+            cutNameTv.setText(bean.getCutW() + "*" + bean.getCutH() + "px");
+            cutNameCb.setOnClickListener(listener);
+            cutNameCb.setTag(bean);
         }
 
         OnClickListener listener = new OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                CutMenuBean bean = (CutMenuBean)v.getTag();
+                setSelectBean(bean);
+                refreshMenus();
             }
         };
 

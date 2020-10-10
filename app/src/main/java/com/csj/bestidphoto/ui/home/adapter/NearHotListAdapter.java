@@ -30,9 +30,13 @@ public class NearHotListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntit
 
         switch (multiItemEntity.getItemType()) {
             case NearHotBean.HOME_ITEM_TYPE_CONTENT:
+                NearHotBean bean = (NearHotBean)multiItemEntity;
                 TextView sizeTv = holder.getView(R.id.sizeTv);
                 TextView sizeInfoTv = holder.getView(R.id.sizeInfoTv);
                 TextView docamaraTv = holder.getView(R.id.docamaraTv);
+
+                sizeTv.setText(bean.getPhotoModelName());
+                sizeInfoTv.setText(String.format("%1$d*%2$dpx",bean.getPxW(),bean.getPxH()));
                 docamaraTv.setOnClickListener(clickListener);
                 break;
         }

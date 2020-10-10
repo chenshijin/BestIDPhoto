@@ -57,13 +57,19 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void test(){
+        String[] names = new String[]{"一寸","二寸","小一寸","小二寸"};
+        int[] pxW = new int[]{295,413,260,413};
+        int[] pxH = new int[]{413,579,378,513};
         List<MultiItemEntity> list = new ArrayList<>();
         NearHotBean bean;
         bean = new NearHotBean();
         bean.setItemType(NearHotBean.HOME_ITEM_TYPE_TITLE);
         list.add(bean);
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < names.length; i++){
             bean = new NearHotBean();
+            bean.setPhotoModelName(names[i]);
+            bean.setPxW(pxW[i]);
+            bean.setPxH(pxH[i]);
             bean.setItemType(NearHotBean.HOME_ITEM_TYPE_CONTENT);
             list.add(bean);
         }

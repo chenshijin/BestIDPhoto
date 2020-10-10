@@ -32,6 +32,17 @@ public class PhotoBeautyBar extends FrameLayout {
     private final int[] checkDrawables = new int[]{R.mipmap.bres_check,R.mipmap.bsmooth_check,R.mipmap.bwhite_check,R.mipmap.bthinface_check,R.mipmap.beye_check};
     private final int[] unCheckDrawables = new int[]{R.mipmap.bres,R.mipmap.bsmooth,R.mipmap.bwhite,R.mipmap.bthinface,R.mipmap.beye};
     private int dp16 = Utils.dp2px(MApp.getInstance(),16F);
+    private BeautyListAdapter adapter;
+
+    private BeautyBean selectBean;
+
+    public BeautyBean getSelectBean() {
+        return selectBean;
+    }
+
+    public void setSelectBean(BeautyBean selectBean) {
+        this.selectBean = selectBean;
+    }
 
     public PhotoBeautyBar(@NonNull Context context) {
         super(context);
@@ -74,9 +85,30 @@ public class PhotoBeautyBar extends FrameLayout {
             }
             datas.add(bean);
         }
-        BeautyListAdapter adapter = new BeautyListAdapter(getContext());
+        adapter = new BeautyListAdapter(getContext());
         commonXR.setAdapter(adapter);
         adapter.setData(datas);
+        adapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View item, int position, Object data) {
+                setSelectBean((BeautyBean)data);
+                refreshMenus();
+            }
+        });
+    }
+
+    private void refreshMenus(){
+        if(getSelectBean() != null){
+            for(BeautyBean bean : adapter.getData()){
+                if(bean.beautyType.equals(getSelectBean().beautyType)){
+                    bean.setCheck(true);
+                }else{
+                    bean.setCheck(false);
+                }
+            }
+
+            adapter.notifyDataSetChanged();
+        }
     }
 
     class BeautyBean {
