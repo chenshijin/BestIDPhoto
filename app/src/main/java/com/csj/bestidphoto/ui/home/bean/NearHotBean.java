@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NearHotBean implements MultiItemEntity,Parcelable {
 
     public final static int HOME_ITEM_TYPE_CONTENT = 1;
@@ -14,6 +17,61 @@ public class NearHotBean implements MultiItemEntity,Parcelable {
     private String photoModelName;
     private int pxW;
     private int pxH;
+    private int mmW;
+    private int mmH;
+    private List<Integer> colors = new ArrayList<>();
+    private String sizeLimit;
+    private String otherLimit;
+    private int dpi;
+
+    public int getDpi() {
+        return dpi;
+    }
+
+    public void setDpi(int dpi) {
+        this.dpi = dpi;
+    }
+
+    public List<Integer> getColors() {
+        return colors;
+    }
+
+    public void setColors(List<Integer> colors) {
+        this.colors.clear();
+        this.colors.addAll(colors);
+    }
+
+    public int getMmW() {
+        return mmW;
+    }
+
+    public void setMmW(int mmW) {
+        this.mmW = mmW;
+    }
+
+    public int getMmH() {
+        return mmH;
+    }
+
+    public void setMmH(int mmH) {
+        this.mmH = mmH;
+    }
+
+    public String getSizeLimit() {
+        return sizeLimit;
+    }
+
+    public void setSizeLimit(String sizeLimit) {
+        this.sizeLimit = sizeLimit;
+    }
+
+    public String getOtherLimit() {
+        return otherLimit;
+    }
+
+    public void setOtherLimit(String otherLimit) {
+        this.otherLimit = otherLimit;
+    }
 
     public String getPhotoModelName() {
         return photoModelName;
