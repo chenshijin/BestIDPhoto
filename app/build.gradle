@@ -46,6 +46,12 @@ android {
 
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -69,6 +75,8 @@ dependencies {
     implementation 'com.sunfusheng:GlideImageView:2.1.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    implementation(name: 'open_ad_sdk', ext: 'aar')
 
     //recyclerview
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
