@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import com.csj.bestidphoto.MApp;
 import com.csj.bestidphoto.R;
 import com.csj.bestidphoto.base.BaseRecyclerAdapter;
 import com.csj.bestidphoto.base.RecyclerViewHolder;
+import com.lamfire.utils.StringUtils;
 import com.lzy.imagepicker.util.Utils;
 
 import java.util.ArrayList;
@@ -27,14 +30,28 @@ public class PhotoBeautyBar extends FrameLayout {
     @BindView(R.id.commonXR)
     XRecycleView commonXR;
 
-    private final String[] beautyName = new String[]{"原图","磨皮","美白","瘦脸","眼睛"};
-    private final String[] beautyType = new String[]{"","Smooth_White","Smooth_White","ShapeType2","ShapeType8"};
-    private final int[] checkDrawables = new int[]{R.mipmap.bres_check,R.mipmap.bsmooth_check,R.mipmap.bwhite_check,R.mipmap.bthinface_check,R.mipmap.beye_check};
-    private final int[] unCheckDrawables = new int[]{R.mipmap.bres,R.mipmap.bsmooth,R.mipmap.bwhite,R.mipmap.bthinface,R.mipmap.beye};
-    private int dp16 = Utils.dp2px(MApp.getInstance(),16F);
+    private final String[] beautyName = new String[]{"原图", "磨皮", "美白", "瘦脸", "眼睛"};
+    private final String[] beautyType = new String[]{"", "Smooth_White-1", "Smooth_White-2", "ShapeType2", "ShapeType8"};//Smooth_White-1和Smooth_White-2都取Smooth_White
+    private final int[] checkDrawables = new int[]{R.mipmap.bres_check, R.mipmap.bsmooth_check, R.mipmap.bwhite_check, R.mipmap.bthinface_check, R.mipmap.beye_check};
+    private final int[] unCheckDrawables = new int[]{R.mipmap.bres, R.mipmap.bsmooth, R.mipmap.bwhite, R.mipmap.bthinface, R.mipmap.beye};
+    @BindView(R.id.valueSb)
+    SeekBar valueSb;
+    @BindView(R.id.shapeSb)
+    SeekBar shapeSb;
+    @BindView(R.id.shapeRl)
+    RelativeLayout shapeRl;
+    private int dp16 = Utils.dp2px(MApp.getInstance(), 16F);
     private BeautyListAdapter adapter;
 
     private BeautyBean selectBean;
+    private OnBeautyCheckListener mOnBeautyCheckListener;
+    private float smoothValue = 0.5F;
+    private float whiteValue = 0.5F;
+    private float shapeValue = 0.5F;
+
+    public void setmOnBeautyCheckListener(OnBeautyCheckListener mOnBeautyCheckListener) {
+        this.mOnBeautyCheckListener = mOnBeautyCheckListener;
+    }
 
     public BeautyBean getSelectBean() {
         return selectBean;
@@ -67,20 +84,48 @@ public class PhotoBeautyBar extends FrameLayout {
     private void initView(Context context) {
         View inflate = inflate(context, R.layout.v_photo_beauty_bar, this);
         ButterKnife.bind(inflate);
-        commonXR.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        commonXR.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         initData();
+        valueSb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            }
+        });
+        shapeSb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            }
+        });
     }
 
-    private void initData(){
+    private void initData() {
         List<BeautyBean> datas = new ArrayList<>();
         BeautyBean bean;
-        for(int i = 0; i < beautyName.length; i++){
+        for (int i = 0; i < beautyName.length; i++) {
             bean = new BeautyBean();
             bean.setBeautyName(beautyName[i]);
             bean.setCheckLogo(checkDrawables[i]);
             bean.setUnCheckLogo(unCheckDrawables[i]);
             bean.setBeautyType(beautyType[i]);
-            if(i == 0){
+            if (i == 0) {
                 bean.setCheck(true);
             }
             datas.add(bean);
@@ -91,18 +136,51 @@ public class PhotoBeautyBar extends FrameLayout {
         adapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View item, int position, Object data) {
-                setSelectBean((BeautyBean)data);
-                refreshMenus();
+                if(getSelectBean() != null && getSelectBean().beautyType.equals(((BeautyBean) data).beautyType)){
+
+                }else{
+                    setSelectBean((BeautyBean) data);
+                    refreshMenus();
+                    dealSeekBar(getSelectBean().getBeautyType());
+                    if(mOnBeautyCheckListener != null){
+                        String value = "";
+                        if(getSelectBean().getBeautyType().startsWith("Smooth_White")){
+                            if(getSelectBean().getBeautyType().equals("Smooth_White-1")){
+                                valueSb.setProgress((int)(smoothValue * 100F));
+                            }else if(getSelectBean().getBeautyType().equals("Smooth_White-2")){
+                                valueSb.setProgress((int)(whiteValue * 100F));
+                            }
+
+                            value = String.format("%1$.1f-%2$.1f-%3$.1f",smoothValue,whiteValue,shapeValue);
+                        }else if(!StringUtils.isEmpty(getSelectBean().getBeautyType())){
+                            value = String.format("%.1f",((float)valueSb.getProgress()) / ((float) valueSb.getMax()));
+                        }
+                        mOnBeautyCheckListener.doPhoto(getSelectBean().beautyType,value);
+                    }
+                }
             }
         });
     }
 
-    private void refreshMenus(){
-        if(getSelectBean() != null){
-            for(BeautyBean bean : adapter.getData()){
-                if(bean.beautyType.equals(getSelectBean().beautyType)){
+    private void dealSeekBar(String beautyType){
+        if(StringUtils.isEmpty(beautyType)){
+            valueSb.setVisibility(View.GONE);
+            shapeRl.setVisibility(View.GONE);
+        }else if(beautyType.startsWith("Smooth_White")){
+            valueSb.setVisibility(View.VISIBLE);
+            shapeRl.setVisibility(View.VISIBLE);
+        }else{
+            valueSb.setVisibility(View.VISIBLE);
+            shapeRl.setVisibility(View.GONE);
+        }
+    }
+
+    private void refreshMenus() {
+        if (getSelectBean() != null) {
+            for (BeautyBean bean : adapter.getData()) {
+                if (bean.beautyType.equals(getSelectBean().beautyType)) {
                     bean.setCheck(true);
-                }else{
+                } else {
                     bean.setCheck(false);
                 }
             }
@@ -175,8 +253,8 @@ public class PhotoBeautyBar extends FrameLayout {
             ImageView checkIv = holder.getView(R.id.checkIv);
 
             TextView beautyNameTv = holder.getView(R.id.beautyNameTv);
-            checkIv.setBackgroundResource(bean.isCheck()?R.drawable.beauty_check_bg:R.drawable.beauty_uncheck_bg);
-            logoIv.setImageResource(bean.isCheck()?bean.getCheckLogo():bean.getUnCheckLogo());
+            checkIv.setBackgroundResource(bean.isCheck() ? R.drawable.beauty_check_bg : R.drawable.beauty_uncheck_bg);
+            logoIv.setImageResource(bean.isCheck() ? bean.getCheckLogo() : bean.getUnCheckLogo());
             beautyNameTv.setText(bean.getBeautyName());
         }
 
@@ -191,5 +269,9 @@ public class PhotoBeautyBar extends FrameLayout {
             return R.layout.item_beauty;
         }
 
+    }
+
+    public interface OnBeautyCheckListener {
+        void doPhoto(String type,String value);
     }
 }
