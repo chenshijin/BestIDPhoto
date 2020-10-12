@@ -19,6 +19,12 @@ public class NearHotListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntit
 
     private static final String TAG = NearHotListAdapter.class.getSimpleName();
 
+    private View.OnClickListener rvChildClickListener;
+
+    public void setRvChildClickListener(View.OnClickListener rvChildClickListener) {
+        this.rvChildClickListener = rvChildClickListener;
+    }
+
     public NearHotListAdapter(List<MultiItemEntity> data) {
         super(data);
         addItemType(NearHotBean.HOME_ITEM_TYPE_TITLE, R.layout.item_home_title);
@@ -36,17 +42,12 @@ public class NearHotListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntit
                 TextView docamaraTv = holder.getView(R.id.docamaraTv);
 
                 sizeTv.setText(bean.getPhotoModelName());
-                sizeInfoTv.setText(String.format("%1$d*%2$dpx",bean.getPxW(),bean.getPxH()));
-                docamaraTv.setOnClickListener(clickListener);
+                sizeInfoTv.setText(String.format("%1$d × %2$d px | %3$d × %4$d mm",bean.getPxW(),bean.getPxH(),bean.getMmW(),bean.getMmH()));
+                docamaraTv.setOnClickListener(rvChildClickListener);
+                docamaraTv.setTag(bean);
                 break;
         }
     }
 
-    View.OnClickListener clickListener = new View.OnClickListener(){
 
-        @Override
-        public void onClick(View v) {
-            PictureUtils.openImagePicker((Activity) getContext(), true, true, 1);
-        }
-    };
 }

@@ -77,9 +77,9 @@ public class PictureUtils {
      */
     public static void loadImg(Context act, String url, ImageView imageView){
         Glide.with(act).load(url)
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.mipmap.logo_app)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .error(R.mipmap.ic_launcher).into(imageView);
+                .error(R.mipmap.logo_app).into(imageView);
     }
     /**
      * 加载圆形图片（可自定义各个角度）

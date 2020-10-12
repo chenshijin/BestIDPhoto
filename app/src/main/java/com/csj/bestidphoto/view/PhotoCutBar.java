@@ -4,18 +4,15 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.csj.bestidphoto.MApp;
 import com.csj.bestidphoto.R;
 import com.csj.bestidphoto.base.BaseRecyclerAdapter;
 import com.csj.bestidphoto.base.RecyclerViewHolder;
-import com.lzy.imagepicker.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +25,34 @@ public class PhotoCutBar extends FrameLayout {
     XRecycleView commonXR;
 
     private final String[] cutName = new String[]{"一寸","二寸","小一寸","小二寸","大一寸","英语四六级考试","学籍照片"};
-    private final int[] cutW = new int[]{295,413,260,413,390,144,307};
-    private final int[] cutH = new int[]{413,579,378,513,567,192,378};
-    private final int[] checkDrawables = new int[]{R.mipmap.bres_check,R.mipmap.bsmooth_check,R.mipmap.bwhite_check,R.mipmap.bthinface_check,R.mipmap.beye_check};
-    private final int[] unCheckDrawables = new int[]{R.mipmap.bres,R.mipmap.bsmooth,R.mipmap.bwhite,R.mipmap.bthinface,R.mipmap.beye};
-    private int dp16 = Utils.dp2px(MApp.getInstance(),16F);
+    private final int[] cutWList = new int[]{295,413,260,413,390,144,307};
+    private final int[] cutHList = new int[]{413,579,378,513,567,192,378};
     private BeautyListAdapter adapter;
+    private int cutW = 335;
+    private int cutH = 453;
 
+    private OnCutCheckListener mOnCutCheckListener;
     private CutMenuBean selectBean;
+
+    public int getCutW() {
+        return cutW;
+    }
+
+    public void setCutW(int cutW) {
+        this.cutW = cutW;
+    }
+
+    public int getCutH() {
+        return cutH;
+    }
+
+    public void setCutH(int cutH) {
+        this.cutH = cutH;
+    }
+
+    public void setmOnCutCheckListener(OnCutCheckListener mOnCutCheckListener) {
+        this.mOnCutCheckListener = mOnCutCheckListener;
+    }
 
     public CutMenuBean getSelectBean() {
         return selectBean;
@@ -78,8 +95,8 @@ public class PhotoCutBar extends FrameLayout {
         for(int i = 0; i < cutName.length; i++){
             bean = new CutMenuBean();
             bean.setCutName(cutName[i]);
-            bean.setCutW(cutW[i]);
-            bean.setCutH(cutH[i]);
+            bean.setCutW(cutWList[i]);
+            bean.setCutH(cutHList[i]);
             datas.add(bean);
         }
         adapter = new BeautyListAdapter(getContext());
@@ -168,6 +185,11 @@ public class PhotoCutBar extends FrameLayout {
                 CutMenuBean bean = (CutMenuBean)v.getTag();
                 setSelectBean(bean);
                 refreshMenus();
+                setCutW(bean.getCutW());
+                setCutH(bean.getCutH());
+                if(mOnCutCheckListener != null){
+                    mOnCutCheckListener.onCutCheck(bean.getCutW(),bean.getCutH());
+                }
             }
         };
 
@@ -176,5 +198,9 @@ public class PhotoCutBar extends FrameLayout {
             return R.layout.item_cut_menu;
         }
 
+    }
+
+    public interface OnCutCheckListener{
+        void onCutCheck(int w,int h);
     }
 }

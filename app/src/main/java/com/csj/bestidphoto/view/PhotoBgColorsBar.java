@@ -33,7 +33,21 @@ public class PhotoBgColorsBar extends FrameLayout {
     private int dp16 = Utils.dp2px(MApp.getInstance(),16F);
     private BgColorListAdapter adapter;
 
+    private OnBgColorCheckListener mOnBgColorCheckListener;
     private BgColorBean selectBean;
+    private String bgColor = "red";
+
+    public String getBgColor() {
+        return bgColor;
+    }
+
+    public void setBgColor(String bgColor) {
+        this.bgColor = bgColor;
+    }
+
+    public void setmOnBgColorCheckListener(OnBgColorCheckListener mOnBgColorCheckListener) {
+        this.mOnBgColorCheckListener = mOnBgColorCheckListener;
+    }
 
     public BgColorBean getSelectBean() {
         return selectBean;
@@ -91,6 +105,10 @@ public class PhotoBgColorsBar extends FrameLayout {
             public void onItemClick(View item, int position, Object data) {
                 setSelectBean((BgColorBean)data);
                 refreshMenus();
+                setBgColor(getSelectBean().getColorValue());
+                if(mOnBgColorCheckListener != null){
+                    mOnBgColorCheckListener.onBgColorCheck(getSelectBean().getColorValue());
+                }
             }
         });
     }
@@ -184,5 +202,9 @@ public class PhotoBgColorsBar extends FrameLayout {
             return R.layout.item_bgcolor;
         }
 
+    }
+
+    public interface OnBgColorCheckListener{
+        void onBgColorCheck(String color);
     }
 }

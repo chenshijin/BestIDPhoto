@@ -1,5 +1,6 @@
 package com.csj.bestidphoto.ui.home;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -16,6 +17,7 @@ import com.csj.bestidphoto.ui.PhotoEditorActivity;
 import com.csj.bestidphoto.ui.PhotoStandardModelDetailActivity;
 import com.csj.bestidphoto.ui.home.adapter.NearHotListAdapter;
 import com.csj.bestidphoto.ui.home.bean.NearHotBean;
+import com.csj.bestidphoto.utils.PictureUtils;
 import com.csj.bestidphoto.view.XRecycleView;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 
@@ -42,7 +44,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public View initView(View contentView, @Nullable Bundle savedInstanceState) {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeViewModel = ViewModelProviders.of(requireActivity()).get(HomeViewModel.class);//new ViewModelProvider(requireActivity()).get(BallGameViewModel.class);
         homelHeaderView = new HomelHeaderView(requireActivity());
 
         titleBar.setTitle("主页");
@@ -50,7 +52,7 @@ public class HomeFragment extends BaseFragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                startActivity(PhotoStandardModelDetailActivity.class);//PhotoEditorActivity
+                PhotoStandardModelDetailActivity.startPhotoStandardModelDetailActivity(requireActivity(),(NearHotBean)adapter.getData().get(position));
             }
         });
         return null;
@@ -60,6 +62,19 @@ public class HomeFragment extends BaseFragment {
         String[] names = new String[]{"一寸","二寸","小一寸","小二寸"};
         int[] pxW = new int[]{295,413,260,413};
         int[] pxH = new int[]{413,579,378,513};
+        int[] mmW = new int[]{25,35,22,35};
+        int[] mmH = new int[]{35,49,32,45};
+        List<int[]> colors = new ArrayList<>();
+        colors.add(new int[]{R.drawable.photo_bg_red,R.drawable.photo_bg_blue,R.drawable.photo_bg_white});
+        colors.add(new int[]{R.drawable.photo_bg_red,R.drawable.photo_bg_blue,R.drawable.photo_bg_white});
+        colors.add(new int[]{R.drawable.photo_bg_red,R.drawable.photo_bg_blue,R.drawable.photo_bg_white});
+        colors.add(new int[]{R.drawable.photo_bg_red,R.drawable.photo_bg_blue,R.drawable.photo_bg_white});
+        String[] sizeLimit = new String[]{"无要求","无要求","无要求","无要求"};
+        String[] otherLimit = new String[]{
+                "免冠, 照片可看见两耳轮廊和相当于男式喉结处的地方",
+                "免冠, 照片可看见两耳轮廊和相当于男式喉结处的地方",
+                "免冠, 照片可看见两耳轮廊和相当于男式喉结处的地方",
+                "免冠, 照片可看见两耳轮廊和相当于男式喉结处的地方"};
         List<MultiItemEntity> list = new ArrayList<>();
         NearHotBean bean;
         bean = new NearHotBean();
@@ -70,12 +85,27 @@ public class HomeFragment extends BaseFragment {
             bean.setPhotoModelName(names[i]);
             bean.setPxW(pxW[i]);
             bean.setPxH(pxH[i]);
+            bean.setMmW(mmW[i]);
+            bean.setMmH(mmH[i]);
+            bean.setSizeLimit(sizeLimit[i]);
+            bean.setOtherLimit(otherLimit[i]);
+            bean.setColors(colors.get(i));
             bean.setItemType(NearHotBean.HOME_ITEM_TYPE_CONTENT);
             list.add(bean);
         }
 
         adapter = new NearHotListAdapter(list);
+        adapter.setRvChildClickListener(rvChildClickListener);
         adapter.addHeaderView(homelHeaderView);
         homeRv.setAdapter(adapter);
     }
+
+    View.OnClickListener rvChildClickListener = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            homeViewModel.setPhotoModel((NearHotBean)v.getTag());
+            PictureUtils.openImagePicker((Activity) getContext(), true, true, 1);
+        }
+    };
 }

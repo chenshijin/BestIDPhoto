@@ -8,4 +8,7 @@
     <color name="color_flowbtn_bg">#fff2f2f2</color>
     <color name="black">#ff000000</color>
     <color name="title_bar_bg">#FBFBFB</color>
+
+    <color name="photo_bg_red">#fe0000</color>
+    <color name="photo_bg_blue">#1975ce</color>
 </resources>

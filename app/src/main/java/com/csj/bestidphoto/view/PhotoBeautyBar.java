@@ -48,7 +48,8 @@ public class PhotoBeautyBar extends FrameLayout {
     private float smoothValue = 0.5F;
     private float whiteValue = 0.5F;
     private float shapeValue = 0.5F;
-//    private float
+    private float shortFaceValue = 0.5F;
+    private float eyeValue = 0.5F;
 
     public void setmOnBeautyCheckListener(OnBeautyCheckListener mOnBeautyCheckListener) {
         this.mOnBeautyCheckListener = mOnBeautyCheckListener;
@@ -90,7 +91,25 @@ public class PhotoBeautyBar extends FrameLayout {
         valueSb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                if(mOnBeautyCheckListener != null){
+                    String value = "";
+                    if(getSelectBean().getBeautyType().startsWith("Smooth_White")){
+                        if(getSelectBean().getBeautyType().equals("Smooth_White-1")){
+                            smoothValue = ((float) seekBar.getProgress()) / ((float) seekBar.getMax());
+                        }else if(getSelectBean().getBeautyType().equals("Smooth_White-2")){
+                            whiteValue = ((float) seekBar.getProgress()) / ((float) seekBar.getMax());
+                        }
 
+                        value = String.format("%1$.1f-%2$.1f-%3$.1f",smoothValue,whiteValue,shapeValue);
+                    }else if(getSelectBean().getBeautyType().startsWith("ShapeType2")){
+                        shortFaceValue = ((float) seekBar.getProgress()) / ((float) seekBar.getMax());
+                        value = String.format("%.1f",shortFaceValue);
+                    }else if(getSelectBean().getBeautyType().startsWith("ShapeType8")){
+                        eyeValue = ((float) seekBar.getProgress()) / ((float) seekBar.getMax());
+                        value = String.format("%.1f",eyeValue);
+                    }
+                    mOnBeautyCheckListener.doPhoto(getSelectBean().getBeautyType(),value);
+                }
             }
 
             @Override
@@ -104,7 +123,14 @@ public class PhotoBeautyBar extends FrameLayout {
         shapeSb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                if(mOnBeautyCheckListener != null){
+                    String value = "";
+                    if(getSelectBean().getBeautyType().startsWith("Smooth_White")){
+                        shapeValue = ((float) seekBar.getProgress()) / ((float) seekBar.getMax());
+                        value = String.format("%1$.1f-%2$.1f-%3$.1f",smoothValue,whiteValue,shapeValue);
+                    }
+                    mOnBeautyCheckListener.doPhoto(getSelectBean().getBeautyType(),value);
+                }
             }
 
             @Override
@@ -153,10 +179,14 @@ public class PhotoBeautyBar extends FrameLayout {
                             }
 
                             value = String.format("%1$.1f-%2$.1f-%3$.1f",smoothValue,whiteValue,shapeValue);
-                        }else if(!StringUtils.isEmpty(getSelectBean().getBeautyType())){
-                            value = String.format("%.1f",((float)valueSb.getProgress()) / ((float) valueSb.getMax()));
+                        }else if(getSelectBean().getBeautyType().startsWith("ShapeType2")){
+                            valueSb.setProgress((int)(shortFaceValue * 100F));
+                            value = String.format("%.1f",shortFaceValue);
+                        }else if(getSelectBean().getBeautyType().startsWith("ShapeType8")){
+                            valueSb.setProgress((int)(eyeValue * 100F));
+                            value = String.format("%.1f",eyeValue);
                         }
-                        mOnBeautyCheckListener.doPhoto(getSelectBean().beautyType,value);
+                        mOnBeautyCheckListener.doPhoto(getSelectBean().getBeautyType(),value);
                     }
                 }
             }
@@ -198,7 +228,8 @@ public class PhotoBeautyBar extends FrameLayout {
         private boolean isCheck = false;
 
         public String getBeautyType() {
-            return beautyType;
+            String[] type = beautyType.split("-");
+            return type[0];
         }
 
         public void setBeautyType(String beautyType) {

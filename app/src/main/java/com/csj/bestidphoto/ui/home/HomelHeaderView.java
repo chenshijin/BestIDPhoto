@@ -126,7 +126,6 @@ public class HomelHeaderView extends FrameLayout {
                     if (util.check(v.getId())) {
                         return;
                     }
-                    //  url类型 0 文章 1 视频 2 直播 3外链 4广告
                 }
             });
         }

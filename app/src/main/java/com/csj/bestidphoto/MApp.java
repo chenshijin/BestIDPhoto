@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.multidex.MultiDexApplication;
 
 import com.bumptech.glide.request.target.ViewTarget;
+import com.csj.bestidphoto.ad.TTAdManagerHolder;
 import com.csj.bestidphoto.utils.glide.GlideImageLoader;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.view.CropImageView;
@@ -24,7 +25,7 @@ public class MApp extends MultiDexApplication {
     //    private LoginBean loginBean = null;
     private int activityStartCount = 0;
     private boolean isBackGround;//是否在后台运行
-    public String APP_NAME = "最美证件照";
+    public String APP_NAME = "便民证件照";
 
     @Override
     public void onCreate() {
@@ -50,6 +51,8 @@ public class MApp extends MultiDexApplication {
 //                initMobSdk();
 //                initSharSdkListener();
 //                SoundPlayer.init(this);
+
+                TTAdManagerHolder.init(this);//初始化穿山甲
             }
         }
     }

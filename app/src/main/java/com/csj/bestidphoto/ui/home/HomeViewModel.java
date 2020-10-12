@@ -4,16 +4,23 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.csj.bestidphoto.ui.home.bean.NearHotBean;
+
 public class HomeViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private MutableLiveData<NearHotBean> photoModel;
 
     public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        photoModel = new MutableLiveData<>();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<NearHotBean> getPhotoModel() {
+        return photoModel;
+    }
+
+    public void setPhotoModel(NearHotBean photoModel) {
+        if(this.photoModel != null){
+            this.photoModel.setValue(photoModel);
+        }
     }
 }

@@ -19,10 +19,10 @@ public class NearHotBean implements MultiItemEntity,Parcelable {
     private int pxH;
     private int mmW;
     private int mmH;
-    private List<Integer> colors = new ArrayList<>();
+    private int[] colors;
     private String sizeLimit;
     private String otherLimit;
-    private int dpi;
+    private int dpi = 300;
 
     public int getDpi() {
         return dpi;
@@ -32,13 +32,12 @@ public class NearHotBean implements MultiItemEntity,Parcelable {
         this.dpi = dpi;
     }
 
-    public List<Integer> getColors() {
+    public int[] getColors() {
         return colors;
     }
 
-    public void setColors(List<Integer> colors) {
-        this.colors.clear();
-        this.colors.addAll(colors);
+    public void setColors(int[] colors) {
+        this.colors = colors;
     }
 
     public int getMmW() {
@@ -120,6 +119,12 @@ public class NearHotBean implements MultiItemEntity,Parcelable {
         dest.writeString(this.photoModelName);
         dest.writeInt(this.pxW);
         dest.writeInt(this.pxH);
+        dest.writeInt(this.mmW);
+        dest.writeInt(this.mmH);
+        dest.writeIntArray(this.colors);
+        dest.writeString(this.sizeLimit);
+        dest.writeString(this.otherLimit);
+        dest.writeInt(this.dpi);
     }
 
     protected NearHotBean(Parcel in) {
@@ -127,6 +132,12 @@ public class NearHotBean implements MultiItemEntity,Parcelable {
         this.photoModelName = in.readString();
         this.pxW = in.readInt();
         this.pxH = in.readInt();
+        this.mmW = in.readInt();
+        this.mmH = in.readInt();
+        this.colors = in.createIntArray();
+        this.sizeLimit = in.readString();
+        this.otherLimit = in.readString();
+        this.dpi = in.readInt();
     }
 
     public static final Creator<NearHotBean> CREATOR = new Creator<NearHotBean>() {
