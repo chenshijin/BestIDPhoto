@@ -17,5 +17,15 @@ public final class Config {
 //    public static final String maoTiAppLocalBasePath = "/"+ APP_STORAGE_ROOT +"/downloadApp/";// 下载APk缓存地址
 //    public static final String DEVICE_ID_PATH = imagePath + "/device_id.txt";//缓存机器唯一标识
 
+    /**
+     * 头条穿山甲广告
+     */
+    public static final String TOUTIAO_USER_ID = "22657";//应用的用户id
+    public static final String TOUTIAO_APPID = "5047050";//应用appid
+    public static final String TOUTIAO_SPLASH_ID = "887294571";//开屏广告位
+    public static final String TOUTIAO_REWARD_ID = "945022827";//激励视频广告位
+    public static final String TOUTIAO_REWARD_NAME = "免费去水印服务";//激励视频-奖励名称
+    public static final int TOUTIAO_REWARD_AMOUNT = 1;//激励视频-奖励数量
+
 
 }

@@ -24,6 +24,7 @@ public class MApp extends MultiDexApplication {
     //    private LoginBean loginBean = null;
     private int activityStartCount = 0;
     private boolean isBackGround;//是否在后台运行
+    public String APP_NAME = "最美证件照";
 
     @Override
     public void onCreate() {

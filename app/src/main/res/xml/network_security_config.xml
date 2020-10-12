@@ -10,4 +10,19 @@
                 src="user" />
         </trust-anchors>
     </base-config>
+
+    <!--    穿山甲广告******begin-->
+    <domain-config>
+        <domain includeSubdomains="true">i.snssdk.com</domain>
+        <domain includeSubdomains="true">is.snssdk.com</domain>
+        <domain includeSubdomains="true">extlog.snssdk.com</domain>
+        <domain includeSubdomains="true">sf3-ttcdn-tos.pstatp.com</domain>
+        <domain includeSubdomains="true">bds.snssdk.com</domain>
+        <domain includeSubdomains="true">dig.bdurl.net</domain>
+        <trust-anchors>
+            <certificates src="user"/>//信任用户自己安装的证书
+            <certificates src="system"/>
+        </trust-anchors>
+    </domain-config>
+    <!--    穿山甲广告******end-->
 </network-security-config>

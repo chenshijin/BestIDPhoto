@@ -9,6 +9,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.csj.bestidphoto.ad.TTAdManagerHolder;
 import com.csj.bestidphoto.base.BaseActivity;
 import com.csj.bestidphoto.comm.Config;
 import com.csj.bestidphoto.ui.PhotoEditorActivity;
@@ -35,6 +36,9 @@ public class MainActivity extends BaseActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);//全屏样式需屏蔽,不然会空指针
         NavigationUI.setupWithNavController(navView, navController);
+
+        //穿山甲广告权限
+        TTAdManagerHolder.get().requestPermissionIfNecessary(getApplicationContext());
     }
 
     @Override

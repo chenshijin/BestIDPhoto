@@ -48,6 +48,7 @@ public class PhotoBeautyBar extends FrameLayout {
     private float smoothValue = 0.5F;
     private float whiteValue = 0.5F;
     private float shapeValue = 0.5F;
+//    private float
 
     public void setmOnBeautyCheckListener(OnBeautyCheckListener mOnBeautyCheckListener) {
         this.mOnBeautyCheckListener = mOnBeautyCheckListener;
