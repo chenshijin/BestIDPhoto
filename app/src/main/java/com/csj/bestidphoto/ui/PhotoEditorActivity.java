@@ -20,20 +20,30 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.csj.bestidphoto.R;
 import com.csj.bestidphoto.base.BaseActivity;
+import com.csj.bestidphoto.comm.SPKey;
 import com.csj.bestidphoto.ui.home.bean.NearHotBean;
 import com.csj.bestidphoto.ui.mine.bean.MinePhotoBean;
 import com.csj.bestidphoto.ui.presenter.EditPhotoCallBack;
 import com.csj.bestidphoto.ui.presenter.EditPhotoPresenter;
+import com.csj.bestidphoto.utils.JavaUtil;
+import com.csj.bestidphoto.utils.PrefManager;
+import com.csj.bestidphoto.utils.ToastUtil;
 import com.csj.bestidphoto.utils.glide.ImageLoaderHelper;
 import com.csj.bestidphoto.view.PhotoBeautyBar;
 import com.csj.bestidphoto.view.PhotoBgColorsBar;
 import com.csj.bestidphoto.view.PhotoCutBar;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lamfire.utils.StringUtils;
 import com.maoti.lib.utils.LogUtil;
 import com.maoti.lib.utils.Utils;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+import kotlin.collections.ArrayDeque;
 
 public class PhotoEditorActivity extends BaseActivity<EditPhotoPresenter> implements EditPhotoCallBack.View {
     @BindView(R.id.titleBar)
@@ -179,13 +189,23 @@ public class PhotoEditorActivity extends BaseActivity<EditPhotoPresenter> implem
                     finish();
                     break;
                 case R.id.photo_edit_save:
-                    MinePhotoBean photoBean = new MinePhotoBean();
+                    String cacheData = PrefManager.getPrefString(SPKey._PHOTOS_RECORD,null);
+                    List<MinePhotoBean> datas = new ArrayList<>();
+                    if(!StringUtils.isEmpty(cacheData)){
+                        datas.addAll(new Gson().fromJson(cacheData, new TypeToken<List<MinePhotoBean>>(){}.getType()));
+                    }
                     NearHotBean photoModel = getBeanData();
                     if(photoModel != null){
-                        photoBean.setMmW(photoModel.getMmW());
-                        photoBean.setMmH(photoModel.getMmH());
-
+                        MinePhotoBean photoBean = JavaUtil.modelAconvertoB(photoModel,MinePhotoBean.class);
+                        photoBean.setPhotoUrl(imgPath);
+                        datas.add(photoBean);
+                        PrefManager.setPrefString(SPKey._PHOTOS_RECORD,new Gson().toJson(datas));
+                        ToastUtil.showShort("已保存!");
+                        finish();
+                    }else{
+                        ToastUtil.showShort("保存失败!");
                     }
+
                     break;
                 case R.id.cutCb:
                 case R.id.beautyCb:
