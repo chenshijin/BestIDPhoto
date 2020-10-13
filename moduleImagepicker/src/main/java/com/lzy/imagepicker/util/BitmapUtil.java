@@ -1,15 +1,20 @@
 package com.lzy.imagepicker.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  *
@@ -102,6 +107,26 @@ public class BitmapUtil {
     public static Bitmap rotateBitmapByDegree(String path, int degree) {
         Bitmap bitmap = BitmapFactory.decodeFile(path);
         return rotateBitmapByDegree(bitmap,degree);
+    }
+
+    /**
+     * 读取drawable中图片的尺寸
+     * @param context
+     * @param resId
+     * @return
+     */
+    public static int[] readBitMapWH(Context context, int resId) {
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+        opt.inPreferredConfig = Bitmap.Config.RGB_565;
+        opt.inPurgeable = true;
+        opt.inInputShareable = true;
+        opt.inJustDecodeBounds = true;
+        // 获取资源图片
+        InputStream is = context.getResources().openRawResource(resId);
+        BitmapFactory.decodeStream(is, null, opt);
+        // opt.inJustDecodeBounds = false;
+        // opt.inSampleSize = 10; //width，hight设为原来的十分一
+        return new int[]{opt.outWidth, opt.outHeight};
     }
 
 }

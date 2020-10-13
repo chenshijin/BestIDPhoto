@@ -13,6 +13,8 @@ import com.csj.bestidphoto.comm.SPKey;
 import com.csj.bestidphoto.ui.mine.adapter.MineListAdapter;
 import com.csj.bestidphoto.ui.mine.bean.MinePhotoBean;
 import com.csj.bestidphoto.utils.PrefManager;
+import com.csj.bestidphoto.utils.glide.ImageLoaderHelper;
+import com.csj.bestidphoto.view.PinchImageView;
 import com.csj.bestidphoto.view.XRecycleView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -38,6 +40,8 @@ public class MineFragment extends BaseFragment {
     QMUITopBar titleBar;
     @BindView(R.id.minePhotosRv)
     XRecycleView minePhotosRv;
+    @BindView(R.id.largePhotoV)
+    PinchImageView largePhotoV;
     private MineViewModel mineViewModel;
 
     private MineListAdapter adapter;
@@ -65,20 +69,27 @@ public class MineFragment extends BaseFragment {
         });
 
         minePhotosRv.doRefresh();
+
+        largePhotoV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setVisibility(View.GONE);
+            }
+        });
         return null;
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(!hidden){
+        if (!hidden) {
             minePhotosRv.doRefresh();
         }
     }
 
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser){
+        if (isVisibleToUser) {
             //TODO now it's visible to user
             minePhotosRv.doRefresh();
         } else {
@@ -117,10 +128,17 @@ public class MineFragment extends BaseFragment {
                         for (MinePhotoBean bean : result) {
                             datas.add(bean);
                         }
-                        if(adapter == null){
+                        if (adapter == null) {
                             adapter = new MineListAdapter(datas);
                             minePhotosRv.setAdapter(adapter);
-                        }else{
+                            adapter.setLookLargePhotoListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    MinePhotoBean bean = (MinePhotoBean)v.getTag();
+                                    showLargePhoto(bean.getPhotoUrl());
+                                }
+                            });
+                        } else {
                             adapter.setNewData(datas);
                         }
 
@@ -135,5 +153,11 @@ public class MineFragment extends BaseFragment {
 
                     }
                 });
+    }
+
+    private void showLargePhoto(String imgUrl){
+        largePhotoV.setVisibility(View.VISIBLE);
+        largePhotoV.bringToFront();
+        ImageLoaderHelper.loadImageByGlide(largePhotoV,imgUrl,-1,null);
     }
 }

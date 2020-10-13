@@ -1,5 +1,6 @@
 package com.csj.bestidphoto.ui.mine.adapter;
 
+import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -23,6 +24,12 @@ public class MineListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
         addItemType(MinePhotoBean.MINE_ITEM_TYPE_CONTENT, R.layout.item_minephoto);
     }
 
+    private View.OnClickListener lookLargePhotoListener;
+
+    public void setLookLargePhotoListener(View.OnClickListener lookLargePhotoListener) {
+        this.lookLargePhotoListener = lookLargePhotoListener;
+    }
+
     @Override
     protected void convert(@NotNull BaseViewHolder holder, MultiItemEntity multiItemEntity) {
 
@@ -36,6 +43,9 @@ public class MineListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                 ImageLoaderHelper.loadImageByGlide(headPhotoIv,bean.getPhotoUrl(),-1,null);
                 sizeTv.setText(bean.getPhotoModelName());
                 sizeInfoTv.setText(String.format("%1$d × %2$d px | %3$d × %4$d mm",bean.getPxW(),bean.getPxH(),bean.getMmW(),bean.getMmH()));
+
+                headPhotoIv.setOnClickListener(lookLargePhotoListener);
+                headPhotoIv.setTag(bean);
                 break;
         }
     }

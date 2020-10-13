@@ -121,7 +121,7 @@ public class PhotoEditorActivity extends BaseActivity<EditPhotoPresenter> implem
                 vlp.width = Utils.getWindowWidth(PhotoEditorActivity.this) * 335/375;
                 vlp.height = vlp.width * photoCutBar.getCutH() / photoCutBar.getCutW();
 
-                photoIv.setLayoutParams(vlp);
+//                photoIv.setLayoutParams(vlp);
                 photoIv.setImageBitmap(resource);
             }
 
@@ -244,6 +244,7 @@ public class PhotoEditorActivity extends BaseActivity<EditPhotoPresenter> implem
     @Override
     public void onFaile(int code, String message, int type) {
         hideProgress();
-        LogUtil.i(TAG, "裁剪失败 " + message);
+        ToastUtil.showShort("操作失败!可能是系统检测不到图像中的人脸!");
+        LogUtil.i(TAG, "操作失败 " + message);
     }
 }

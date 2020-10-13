@@ -16,6 +16,8 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.csj.bestidphoto.base.BaseActivity;
+import com.csj.bestidphoto.comm.SPKey;
+import com.csj.bestidphoto.utils.PrefManager;
 import com.csj.bestidphoto.utils.StatusCompat;
 import com.csj.bestidphoto.view.guide.CountdownView;
 import com.csj.bestidphoto.view.guide.IndicatorScrollView;
@@ -84,6 +86,8 @@ public class GuidePageActivity extends BaseActivity {
         }
         initEvent();
         vpGuide.setAdapter(new GuidePagesAdapter());
+
+        PrefManager.setPrefBoolean(SPKey._SHOW_GUIDE,true);
     }
 
     private void initEvent() {
