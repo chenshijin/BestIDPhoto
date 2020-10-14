@@ -53,9 +53,6 @@ public class MainActivity extends BaseActivity {
                 LogUtil.i(TAG,"MainActivity HomeViewModel");
             }
         });
-
-        //穿山甲广告权限
-        TTAdManagerHolder.get().requestPermissionIfNecessary(getApplicationContext());
     }
 
     @Override

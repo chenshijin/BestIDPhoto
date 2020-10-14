@@ -1,5 +1,6 @@
 package com.csj.bestidphoto.comm;
 
+import android.Manifest;
 import android.os.Environment;
 
 public final class Config {
@@ -16,6 +17,16 @@ public final class Config {
 //    public static final String IMG_FAN_DRAFIT_CACHE = imagePath + "/" + "fan_drafit/";//球迷圈草稿图片
 //    public static final String maoTiAppLocalBasePath = "/"+ APP_STORAGE_ROOT +"/downloadApp/";// 下载APk缓存地址
 //    public static final String DEVICE_ID_PATH = imagePath + "/device_id.txt";//缓存机器唯一标识
+
+
+    // 所需的全部权限
+    public static final String[] PERMISSIONS = new String[]{
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
 
     /**
      * 头条穿山甲广告

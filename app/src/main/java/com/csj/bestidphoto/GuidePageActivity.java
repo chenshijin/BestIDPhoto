@@ -69,7 +69,6 @@ public class GuidePageActivity extends BaseActivity {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        checkPermissions();
         indicatorScrollView.setmScrollCount(getResources().obtainTypedArray(R.array.splash_icon).length());
         vpGuide.addOnPageChangeListener(indicatorScrollView);
         mMArgbEvaluator = new ArgbEvaluator();
@@ -87,7 +86,7 @@ public class GuidePageActivity extends BaseActivity {
         initEvent();
         vpGuide.setAdapter(new GuidePagesAdapter());
 
-        PrefManager.setPrefBoolean(SPKey._SHOW_GUIDE,true);
+        PrefManager.setPrefBoolean(SPKey._SHOW_GUIDE,false);
     }
 
     private void initEvent() {
@@ -139,36 +138,6 @@ public class GuidePageActivity extends BaseActivity {
             public void onClick(View v) {
                 openPage(MainActivity.class);
                 finish();
-            }
-        });
-    }
-
-    private void checkPermissions() {
-        RxPermissions rxPermission = new RxPermissions(this);
-        //请求权限全部结果
-        rxPermission.request(
-                //添加需要的权限
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-        ).subscribe(new Observer<Boolean>() {//订阅
-            @Override
-            public void onSubscribe(Disposable d) {
-            }
-
-            @Override
-            public void onNext(Boolean aBoolean) {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-            }
-
-            @Override
-            public void onComplete() {
-
             }
         });
     }
