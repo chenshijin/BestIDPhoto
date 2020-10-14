@@ -279,6 +279,8 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
                 if (imagePicker.isCrop()) {
                     Intent intent = new Intent(ImageGridActivity.this, ImageCropActivity.class);
                     startActivityForResult(intent, ImagePicker.REQUEST_CODE_CROP);  //单选需要裁剪，进入裁剪界面
+
+//                    ImageCropActivity.startImageCropActivity(this,335,453);
                 } else {
                     Intent intent = new Intent();
                     intent.putExtra(ImagePicker.EXTRA_RESULT_ITEMS, imagePicker.getSelectedImages());
@@ -370,6 +372,8 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
                 if (imagePicker.isCrop()) {
                     Intent intent = new Intent(ImageGridActivity.this, ImageCropActivity.class);
                     startActivityForResult(intent, ImagePicker.REQUEST_CODE_CROP);  //单选需要裁剪，进入裁剪界面
+
+//                    ImageCropActivity.startImageCropActivity(this,335,453);
                 } else {
                     Intent intent = new Intent();
                     intent.putExtra(ImagePicker.EXTRA_RESULT_ITEMS, imagePicker.getSelectedImages());

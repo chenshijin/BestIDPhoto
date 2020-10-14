@@ -136,10 +136,10 @@ public class PhotoStandardModelDetailActivity extends BaseActivity {
                     finish();
                     break;
                 case R.id.albumUpTv:
-                    PictureUtils.openImagePicker((Activity) getContext(), false, true, 1);
+                    PictureUtils.openImagePicker((Activity) getContext(), false, true, getBeanData().getPxW(),getBeanData().getPxH(),1);
                     break;
                 case R.id.camaraUpTv:
-                    PictureUtils.openImagePicker((Activity) getContext(), true, true, 1);
+                    PictureUtils.openImagePicker((Activity) getContext(), true, true, getBeanData().getPxW(),getBeanData().getPxH(),1);
                     break;
             }
         }

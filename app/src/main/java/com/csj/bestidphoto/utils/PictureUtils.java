@@ -29,15 +29,21 @@ public class PictureUtils {
     /**
      * takePicker 是否默认直接打开摄像机
      */
-    public static void openImagePicker(Activity act, boolean takePicker, boolean isCrop, int selectLimit){
+    public static void openImagePicker(Activity act, boolean takePicker, boolean isCrop, int focusW_dp,int focusH_dp,int selectLimit){
         ImagePicker imagePicker = ImagePicker.getInstance();
         imagePicker.setSelectLimit(selectLimit);
         imagePicker.setCrop(isCrop);
+        imagePicker.setFocusWidth(Utils.dipToPx(act,focusW_dp));
+        imagePicker.setFocusHeight(Utils.dipToPx(act,focusH_dp));
         Intent intent = new Intent(act, ImageGridActivity.class);
         if(takePicker){
             intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS,true);
         }
         act.startActivityForResult(intent, Config.IMAGE_PICKER);
+    }
+
+    public static void openImageCrop(){
+
     }
 
 

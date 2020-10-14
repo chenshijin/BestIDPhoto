@@ -17,6 +17,15 @@ public class MinePhotoBean implements MultiItemEntity,Parcelable {
     private int mmW;
     private int mmH;
     private String photoUrl;
+    private int model = 2;//1-照片编辑器  2-照片模型
+
+    public int getModel() {
+        return model;
+    }
+
+    public void setModel(int model) {
+        this.model = model;
+    }
 
     public String getPhotoModelName() {
         return photoModelName;
@@ -92,6 +101,7 @@ public class MinePhotoBean implements MultiItemEntity,Parcelable {
         dest.writeInt(this.mmW);
         dest.writeInt(this.mmH);
         dest.writeString(this.photoUrl);
+        dest.writeInt(this.model);
     }
 
     protected MinePhotoBean(Parcel in) {
@@ -102,6 +112,7 @@ public class MinePhotoBean implements MultiItemEntity,Parcelable {
         this.mmW = in.readInt();
         this.mmH = in.readInt();
         this.photoUrl = in.readString();
+        this.model = in.readInt();
     }
 
     public static final Creator<MinePhotoBean> CREATOR = new Creator<MinePhotoBean>() {

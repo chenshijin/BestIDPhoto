@@ -132,7 +132,7 @@ public class CropImageView extends AppCompatImageView {
     @Override
     public void setImageBitmap(Bitmap bm) {
         super.setImageBitmap(bm);
-        initImage();
+//        initImage();
     }
 
     @Override

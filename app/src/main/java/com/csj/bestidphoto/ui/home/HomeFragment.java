@@ -55,6 +55,18 @@ public class HomeFragment extends BaseFragment {
                 PhotoStandardModelDetailActivity.startPhotoStandardModelDetailActivity(requireActivity(),(NearHotBean)adapter.getData().get(position));
             }
         });
+
+        homelHeaderView.setPhotoEditorListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NearHotBean photoModel = new NearHotBean(1);
+                photoModel.setPhotoModelName("自定义-" + System.currentTimeMillis());
+                photoModel.setPxW(335);
+                photoModel.setPxH(453);
+                photoModel.setDpi(300);
+                homeViewModel.setPhotoModel(photoModel);
+            }
+        });
         return null;
     }
 
@@ -104,8 +116,9 @@ public class HomeFragment extends BaseFragment {
 
         @Override
         public void onClick(View v) {
-            homeViewModel.setPhotoModel((NearHotBean)v.getTag());
-            PictureUtils.openImagePicker((Activity) getContext(), true, true, 1);
+            NearHotBean bean = (NearHotBean)v.getTag();
+            homeViewModel.setPhotoModel(bean);
+            PictureUtils.openImagePicker((Activity) getContext(), true, true, bean.getPxW(),bean.getPxH(),1);
         }
     };
 }

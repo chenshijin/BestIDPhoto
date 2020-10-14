@@ -44,6 +44,12 @@ public class MineListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                 sizeTv.setText(bean.getPhotoModelName());
                 sizeInfoTv.setText(String.format("%1$d × %2$d px | %3$d × %4$d mm",bean.getPxW(),bean.getPxH(),bean.getMmW(),bean.getMmH()));
 
+                if(bean.getModel() == 2){
+                    sizeInfoTv.setText(String.format("%1$d × %2$d px | %3$d × %4$d mm",bean.getPxW(),bean.getPxH(),bean.getMmW(),bean.getMmH()));
+                }else{
+                    sizeInfoTv.setText(String.format("%1$d × %2$d px",bean.getPxW(),bean.getPxH()));
+                }
+
                 headPhotoIv.setOnClickListener(lookLargePhotoListener);
                 headPhotoIv.setTag(bean);
                 break;

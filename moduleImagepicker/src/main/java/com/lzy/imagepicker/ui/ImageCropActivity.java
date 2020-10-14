@@ -1,9 +1,12 @@
 package com.lzy.imagepicker.ui;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +41,24 @@ public class ImageCropActivity extends ImageBaseActivity implements View.OnClick
     private ArrayList<ImageItem> mImageItems;
     private ImagePicker imagePicker;
 
+    private final static String _KEY_IMG_W = "IMG_W";
+    private final static String _KEY_IMG_H = "IMG_H";
+
+    public static void startImageCropActivity(Activity ctx, int w,int h) {
+        Intent to = new Intent(ctx, ImageCropActivity.class);
+        to.putExtra(_KEY_IMG_W, w);
+        to.putExtra(_KEY_IMG_H, h);
+        ctx.startActivityForResult(to, ImagePicker.REQUEST_CODE_CROP);  //单选需要裁剪，进入裁剪界面
+    }
+
+    private int getIMG_W(){
+        return getIntent().getExtras().getInt(_KEY_IMG_W);
+    }
+
+    private int getIMG_H(){
+        return getIntent().getExtras().getInt(_KEY_IMG_H);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +84,8 @@ public class ImageCropActivity extends ImageBaseActivity implements View.OnClick
         String imagePath = mImageItems.get(0).path;
 
         mCropImageView.setFocusStyle(imagePicker.getStyle());
-        mCropImageView.setFocusWidth(Utils.dp2px(this,335F));//imagePicker.getFocusWidth()
-        mCropImageView.setFocusHeight(Utils.dp2px(this,453F));//imagePicker.getFocusHeight()
+        mCropImageView.setFocusWidth(imagePicker.getFocusWidth());//
+        mCropImageView.setFocusHeight(imagePicker.getFocusHeight());//
 
         //缩放图片
         BitmapFactory.Options options = new BitmapFactory.Options();

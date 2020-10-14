@@ -42,7 +42,11 @@ public class NearHotListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntit
                 TextView docamaraTv = holder.getView(R.id.docamaraTv);
 
                 sizeTv.setText(bean.getPhotoModelName());
-                sizeInfoTv.setText(String.format("%1$d × %2$d px | %3$d × %4$d mm",bean.getPxW(),bean.getPxH(),bean.getMmW(),bean.getMmH()));
+                if(bean.getModel() == 2){
+                    sizeInfoTv.setText(String.format("%1$d × %2$d px | %3$d × %4$d mm",bean.getPxW(),bean.getPxH(),bean.getMmW(),bean.getMmH()));
+                }else{
+                    sizeInfoTv.setText(String.format("%1$d × %2$d px",bean.getPxW(),bean.getPxH()));
+                }
                 docamaraTv.setOnClickListener(rvChildClickListener);
                 docamaraTv.setTag(bean);
                 break;

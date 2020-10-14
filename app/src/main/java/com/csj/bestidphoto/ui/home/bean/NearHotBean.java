@@ -23,6 +23,15 @@ public class NearHotBean implements MultiItemEntity,Parcelable {
     private String sizeLimit;
     private String otherLimit;
     private int dpi = 300;
+    private int model = 2;//1-照片编辑器  2-照片模型
+
+    public int getModel() {
+        return model;
+    }
+
+    public void setModel(int model) {
+        this.model = model;
+    }
 
     public int getDpi() {
         return dpi;
@@ -103,6 +112,10 @@ public class NearHotBean implements MultiItemEntity,Parcelable {
     public NearHotBean() {
     }
 
+    public NearHotBean(int model) {
+        setModel(model);
+    }
+
     @Override
     public int getItemType() {
         return itemType;
@@ -125,6 +138,7 @@ public class NearHotBean implements MultiItemEntity,Parcelable {
         dest.writeString(this.sizeLimit);
         dest.writeString(this.otherLimit);
         dest.writeInt(this.dpi);
+        dest.writeInt(this.model);
     }
 
     protected NearHotBean(Parcel in) {
@@ -138,6 +152,7 @@ public class NearHotBean implements MultiItemEntity,Parcelable {
         this.sizeLimit = in.readString();
         this.otherLimit = in.readString();
         this.dpi = in.readInt();
+        this.model = in.readInt();
     }
 
     public static final Creator<NearHotBean> CREATOR = new Creator<NearHotBean>() {

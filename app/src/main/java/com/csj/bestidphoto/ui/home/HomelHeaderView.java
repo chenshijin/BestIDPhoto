@@ -41,6 +41,11 @@ public class HomelHeaderView extends FrameLayout {
     TextView photoEditorTv;
 
     private Context mContext;
+    private OnClickListener photoEditorListener;
+
+    public void setPhotoEditorListener(OnClickListener photoEditorListener) {
+        this.photoEditorListener = photoEditorListener;
+    }
 
     public HomelHeaderView(Context context) {
         this(context, null);
@@ -82,7 +87,10 @@ public class HomelHeaderView extends FrameLayout {
         photoEditorTv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                PictureUtils.openImagePicker((Activity) getContext(), false, true, 1);
+                PictureUtils.openImagePicker((Activity) getContext(), false, true, 335,453,1);
+                if(photoEditorListener != null){
+                    photoEditorListener.onClick(v);
+                }
             }
         });
     }

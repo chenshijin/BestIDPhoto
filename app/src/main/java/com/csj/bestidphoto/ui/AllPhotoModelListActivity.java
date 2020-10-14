@@ -126,7 +126,7 @@ public class AllPhotoModelListActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             currentBean = (NearHotBean)v.getTag();
-            PictureUtils.openImagePicker((Activity) getContext(), true, true, 1);
+            PictureUtils.openImagePicker((Activity) getContext(), true, true, currentBean.getPxW(),currentBean.getPxH(),1);
         }
     };
 
