@@ -252,7 +252,6 @@ public class PhotoEditorActivity extends BaseActivity<EditPhotoPresenter> implem
     @Override
     public void onBeautyPhotoSuccess(String imgPath) {
         hideProgress();
-        this.imgPath = imgPath;
         showPhoto(imgPath);
     }
 

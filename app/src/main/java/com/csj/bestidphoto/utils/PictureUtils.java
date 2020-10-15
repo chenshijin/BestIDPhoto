@@ -35,6 +35,8 @@ public class PictureUtils {
         imagePicker.setCrop(isCrop);
         imagePicker.setFocusWidth(Utils.dipToPx(act,focusW_dp));
         imagePicker.setFocusHeight(Utils.dipToPx(act,focusH_dp));
+        imagePicker.setOutPutX(1000);
+        imagePicker.setOutPutY(1000 * imagePicker.getFocusHeight() / imagePicker.getFocusWidth());
         Intent intent = new Intent(act, ImageGridActivity.class);
         if(takePicker){
             intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS,true);
