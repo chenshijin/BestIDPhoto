@@ -84,6 +84,9 @@ public class MinePhotoBean implements MultiItemEntity,Parcelable {
 
     @Override
     public int getItemType() {
+        if(itemType != MINE_ITEM_TYPE_CONTENT){
+            itemType = MINE_ITEM_TYPE_CONTENT;
+        }
         return itemType;
     }
 

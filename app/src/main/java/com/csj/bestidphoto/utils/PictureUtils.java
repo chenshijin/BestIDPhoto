@@ -44,12 +44,6 @@ public class PictureUtils {
         act.startActivityForResult(intent, Config.IMAGE_PICKER);
     }
 
-    public static void openImageCrop(){
-
-    }
-
-
-
     /**
      * 打开预览图片
      * @param act
