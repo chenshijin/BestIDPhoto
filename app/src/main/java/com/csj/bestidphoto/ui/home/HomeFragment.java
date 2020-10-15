@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.csj.bestidphoto.R;
 import com.csj.bestidphoto.base.BaseFragment;
+import com.csj.bestidphoto.ui.AllPhotoModelListActivity;
 import com.csj.bestidphoto.ui.PhotoEditorActivity;
 import com.csj.bestidphoto.ui.PhotoStandardModelDetailActivity;
 import com.csj.bestidphoto.ui.home.adapter.NearHotListAdapter;
@@ -52,7 +53,10 @@ public class HomeFragment extends BaseFragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                PhotoStandardModelDetailActivity.startPhotoStandardModelDetailActivity(requireActivity(),(NearHotBean)adapter.getData().get(position));
+                MultiItemEntity bean = (MultiItemEntity)adapter.getData().get(position);
+                if(bean.getItemType() == NearHotBean.HOME_ITEM_TYPE_CONTENT){
+                    PhotoStandardModelDetailActivity.startPhotoStandardModelDetailActivity(requireActivity(),(NearHotBean)bean);
+                }
             }
         });
 

@@ -35,7 +35,7 @@ public class EditPhotoPresenter extends BasePresenter<EditPhotoCallBack.View> {
             @Override
             public void onException(int code, String eMsg) {
                 if (isViewActive()) {
-                    getView().onFaile(code,eMsg,2);
+                    getView().onFaile(code,eMsg,1);
                 }
             }
         });
@@ -53,7 +53,7 @@ public class EditPhotoPresenter extends BasePresenter<EditPhotoCallBack.View> {
                         }
                     } else {
                         if (isViewActive()) {
-                            getView().onFaile(result.getRet(), result.getMsg(),3);
+                            getView().onFaile(result.getRet(), result.getMsg(),2);
                         }
                     }
                 } catch (Exception e) {
@@ -64,7 +64,7 @@ public class EditPhotoPresenter extends BasePresenter<EditPhotoCallBack.View> {
             @Override
             public void onException(int code, String eMsg) {
                 if (isViewActive()) {
-                    getView().onFaile(code,eMsg,4);
+                    getView().onFaile(code,eMsg,2);
                 }
             }
         });

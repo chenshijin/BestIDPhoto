@@ -116,7 +116,10 @@ public class AllPhotoModelListActivity extends BaseActivity {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                PhotoStandardModelDetailActivity.startPhotoStandardModelDetailActivity(AllPhotoModelListActivity.this,(NearHotBean)adapter.getData().get(position));
+                MultiItemEntity bean = (MultiItemEntity)adapter.getData().get(position);
+                if(bean.getItemType() == NearHotBean.HOME_ITEM_TYPE_CONTENT){
+                    PhotoStandardModelDetailActivity.startPhotoStandardModelDetailActivity(AllPhotoModelListActivity.this,(NearHotBean)bean);
+                }
             }
         });
     }

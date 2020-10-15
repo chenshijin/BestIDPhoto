@@ -287,6 +287,9 @@ public class PhotoBeautyBar extends FrameLayout {
             TextView beautyNameTv = holder.getView(R.id.beautyNameTv);
             checkIv.setBackgroundResource(bean.isCheck() ? R.drawable.beauty_check_bg : R.drawable.beauty_uncheck_bg);
             logoIv.setImageResource(bean.isCheck() ? bean.getCheckLogo() : bean.getUnCheckLogo());
+            if(bean.isCheck()){
+                setSelectBean(bean);
+            }
             beautyNameTv.setText(bean.getBeautyName());
         }
 
