@@ -162,8 +162,9 @@ public class PhotoEditorActivity extends BaseActivity<EditPhotoPresenter> implem
 
         photoCutBar.setmOnCutCheckListener(new PhotoCutBar.OnCutCheckListener() {
             @Override
-            public void onCutCheck(int w, int h) {
+            public void onCutCheck(String photoModelName,int w, int h) {
 //                cutPhoto(getImgPath(), w, h, photoBgColorsBar.getBgColor());
+                photoModelBean.setPhotoModelName(photoModelName);
                 PhotoCropActivity.startPhotoCropActivity(PhotoEditorActivity.this,getImgPath(),getBeanData().getPxW(),getBeanData().getPxH(),w,h);
             }
         });

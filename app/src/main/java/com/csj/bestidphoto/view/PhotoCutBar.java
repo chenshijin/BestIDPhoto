@@ -188,7 +188,7 @@ public class PhotoCutBar extends FrameLayout {
                 setCutW(bean.getCutW());
                 setCutH(bean.getCutH());
                 if(mOnCutCheckListener != null){
-                    mOnCutCheckListener.onCutCheck(bean.getCutW(),bean.getCutH());
+                    mOnCutCheckListener.onCutCheck(bean.getCutName(),bean.getCutW(),bean.getCutH());
                 }
             }
         };
@@ -201,6 +201,6 @@ public class PhotoCutBar extends FrameLayout {
     }
 
     public interface OnCutCheckListener{
-        void onCutCheck(int w,int h);
+        void onCutCheck(String photoModelName,int w,int h);
     }
 }
