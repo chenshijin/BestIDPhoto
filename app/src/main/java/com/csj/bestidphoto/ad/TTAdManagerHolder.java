@@ -9,6 +9,7 @@ import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.csj.bestidphoto.BuildConfig;
 import com.csj.bestidphoto.MApp;
 import com.csj.bestidphoto.comm.Config;
+import com.csj.bestidphoto.comm.SysConfig;
 
 /**
  * 可以用一个单例来保存TTAdManager实例，在需要初始化sdk的时候调用

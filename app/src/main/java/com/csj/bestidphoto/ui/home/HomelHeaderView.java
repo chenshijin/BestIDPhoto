@@ -10,10 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.csj.bestidphoto.R;
+import com.csj.bestidphoto.ad.BannerAd;
+import com.csj.bestidphoto.comm.SysConfig;
 import com.csj.bestidphoto.ui.AllPhotoModelListActivity;
 import com.csj.bestidphoto.ui.home.bean.TopBannerBean;
 import com.csj.bestidphoto.utils.AntiShakeUtil;
 import com.csj.bestidphoto.utils.PictureUtils;
+import com.maoti.lib.utils.Utils;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
@@ -39,9 +42,12 @@ public class HomelHeaderView extends FrameLayout {
     TextView allSizeTv;
     @BindView(R.id.photoEditorTv)
     TextView photoEditorTv;
+    @BindView(R.id.adContainerFl)
+    FrameLayout adContainerFl;
 
     private Context mContext;
     private OnClickListener photoEditorListener;
+    private BannerAd mBannerAd;
 
     public void setPhotoEditorListener(OnClickListener photoEditorListener) {
         this.photoEditorListener = photoEditorListener;
@@ -73,8 +79,16 @@ public class HomelHeaderView extends FrameLayout {
             bean.setImgRes(res);
             list.add(bean);
         }
-        bannerNormal.setPages(list, (MZHolderCreator<BannerPaddingViewHolder>) () -> new BannerPaddingViewHolder());
-        bannerNormal.start();
+
+        if(SysConfig.getInstance().getAdConfig() != null){
+            int w_px = Utils.getWindowWidth(getContext());
+            int w_dp = Utils.pxToDip(getContext(),w_px);
+            BannerAd.AdSizeModel admodel = new BannerAd.AdSizeModel("690*388", w_dp, w_dp * 388 / 690, SysConfig.getInstance().getAdConfig().getBannerid());
+            mBannerAd = new BannerAd((Activity) getContext(),admodel,adContainerFl);
+        }
+
+//        bannerNormal.setPages(list, (MZHolderCreator<BannerPaddingViewHolder>) () -> new BannerPaddingViewHolder());
+//        bannerNormal.start();
 
         allSizeTv.setOnClickListener(new OnClickListener() {
             @Override
@@ -87,8 +101,8 @@ public class HomelHeaderView extends FrameLayout {
         photoEditorTv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                PictureUtils.openImagePicker((Activity) getContext(), false, true, 335,453,1);
-                if(photoEditorListener != null){
+                PictureUtils.openImagePicker((Activity) getContext(), false, true, 335, 453, 1);
+                if (photoEditorListener != null) {
                     photoEditorListener.onClick(v);
                 }
             }
@@ -102,7 +116,9 @@ public class HomelHeaderView extends FrameLayout {
     }
 
     public void onDestory() {
-
+        if(mBannerAd != null){
+            mBannerAd.onDestroy();
+        }
 //        if (mWebView != null) {
 //            mWebView.onDestory();
 //        }

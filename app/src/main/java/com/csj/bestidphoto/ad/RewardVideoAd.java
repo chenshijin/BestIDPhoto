@@ -28,15 +28,17 @@ public class RewardVideoAd {
     private String rewardName;//奖励的名称
     private int rewardAmount;//奖励的数量
     private String userID;//用户id,必传参数
+    private AdRewardListener adRewardListener;
     private int attach;//1-MainActivity  2-RemoveWatermarkActivity  3-QuShuiyinActivity  4-CutVideoActivity
 
-    public RewardVideoAd(Context ctx, String codeId, String userID, String rewardName, int rewardAmount, int model) {//务必传入的context为activity，否则会影响应用下载广告的下载
+    public RewardVideoAd(Context ctx, String codeId, String userID, String rewardName, int rewardAmount, int model,AdRewardListener adRewardListener) {//务必传入的context为activity，否则会影响应用下载广告的下载
         this.ctx = ctx;
         this.codeId = codeId;
         this.userID = userID;
         this.rewardName = rewardName;
         this.rewardAmount = rewardAmount;
         this.model = model;
+        this.adRewardListener = adRewardListener;
         mTTAdNative = TTAdManagerHolder.get().createAdNative(ctx);
 //        if(ctx instanceof MainActivity){
 //            attach = 1;
@@ -47,6 +49,10 @@ public class RewardVideoAd {
 //        }else if(ctx instanceof CutVideoActivity){
 //            attach = 4;
 //        }
+    }
+
+    public void setAdRewardListener(AdRewardListener adRewardListener) {
+        this.adRewardListener = adRewardListener;
     }
 
     public void loadAd() {
@@ -106,6 +112,9 @@ public class RewardVideoAd {
                     public void onVideoComplete() {
 //                        ToastUtil.showShort(  "rewardVideoAd complete");
                         LogUtil.i(TAG, "rewardVideoAd complete");
+                        if(adRewardListener != null){
+                            adRewardListener.onAdFinish();
+                        }
 //                        if(AdUtil.getRewardLeftTimes() > 0){
 //                            giveTimes();
 //                        }
@@ -228,6 +237,10 @@ public class RewardVideoAd {
         }
 
         return "未知类型+type=" + type;
+    }
+
+    public interface AdRewardListener{
+        void onAdFinish();
     }
 
 }

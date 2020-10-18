@@ -19,9 +19,11 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.csj.bestidphoto.MApp;
 import com.csj.bestidphoto.R;
+import com.csj.bestidphoto.ad.RewardVideoAd;
 import com.csj.bestidphoto.base.BaseActivity;
 import com.csj.bestidphoto.comm.Config;
 import com.csj.bestidphoto.comm.SPKey;
+import com.csj.bestidphoto.comm.SysConfig;
 import com.csj.bestidphoto.ui.home.bean.NearHotBean;
 import com.csj.bestidphoto.ui.mine.bean.MinePhotoBean;
 import com.csj.bestidphoto.ui.presenter.EditPhotoCallBack;
@@ -206,23 +208,31 @@ public class PhotoEditorActivity extends BaseActivity<EditPhotoPresenter> implem
                     finish();
                     break;
                 case R.id.photo_edit_save:
-                    String cacheData = PrefManager.getPrefString(SPKey._PHOTOS_RECORD, null);
-                    List<MinePhotoBean> datas = new ArrayList<>();
-                    if (!StringUtils.isEmpty(cacheData)) {
-                        datas.addAll(new Gson().fromJson(cacheData, new TypeToken<List<MinePhotoBean>>() {
-                        }.getType()));
-                    }
-                    if (photoModelBean != null) {
-                        MinePhotoBean photoBean = JavaUtil.modelAconvertoB(photoModelBean, MinePhotoBean.class);
-                        photoBean.setPhotoUrl(imgPath);
-                        datas.add(photoBean);
-                        PrefManager.setPrefString(SPKey._PHOTOS_RECORD, new Gson().toJson(datas));
-                        ToastUtil.showShort("已保存!");
-                        finish();
-                    } else {
-                        ToastUtil.showShort("保存失败!");
-                    }
-
+                    new RewardVideoAd(PhotoEditorActivity.this,
+                            SysConfig.getInstance().getAdConfig().getRewardid(),
+                            SysConfig.getInstance().getAdConfig().getUserid(),
+                            SysConfig.getInstance().getAdConfig().getRewardname(),
+                            SysConfig.getInstance().getAdConfig().getRewardcnt(), 1, new RewardVideoAd.AdRewardListener() {
+                        @Override
+                        public void onAdFinish() {
+                            String cacheData = PrefManager.getPrefString(SPKey._PHOTOS_RECORD, null);
+                            List<MinePhotoBean> datas = new ArrayList<>();
+                            if (!StringUtils.isEmpty(cacheData)) {
+                                datas.addAll(new Gson().fromJson(cacheData, new TypeToken<List<MinePhotoBean>>() {
+                                }.getType()));
+                            }
+                            if (photoModelBean != null) {
+                                MinePhotoBean photoBean = JavaUtil.modelAconvertoB(photoModelBean, MinePhotoBean.class);
+                                photoBean.setPhotoUrl(imgPath);
+                                datas.add(photoBean);
+                                PrefManager.setPrefString(SPKey._PHOTOS_RECORD, new Gson().toJson(datas));
+                                ToastUtil.showShort("已保存!");
+                                finish();
+                            } else {
+                                ToastUtil.showShort("保存失败!");
+                            }
+                        }
+                    }).loadAd();
                     break;
                 case R.id.cutCb:
                 case R.id.beautyCb:

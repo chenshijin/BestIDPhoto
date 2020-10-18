@@ -14,10 +14,14 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.csj.bestidphoto.ad.TTAdManagerHolder;
 import com.csj.bestidphoto.base.BaseActivity;
+import com.csj.bestidphoto.comm.AdConfig;
 import com.csj.bestidphoto.comm.Config;
+import com.csj.bestidphoto.comm.SysConfig;
 import com.csj.bestidphoto.ui.PhotoEditorActivity;
 import com.csj.bestidphoto.ui.home.HomeViewModel;
 import com.csj.bestidphoto.ui.home.bean.NearHotBean;
+import com.csj.bestidphoto.ui.presenter.ConfigPresenter;
+import com.csj.bestidphoto.ui.presenter.GetConfigCallBack;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
@@ -26,7 +30,7 @@ import com.maoti.lib.utils.LogUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<ConfigPresenter> implements GetConfigCallBack.View {
 
     private HomeViewModel viewModel;
 
@@ -53,6 +57,10 @@ public class MainActivity extends BaseActivity {
                 LogUtil.i(TAG,"MainActivity HomeViewModel");
             }
         });
+
+        if(SysConfig.getInstance().getAdConfig() == null){
+            getPresenter().getConfig();
+        }
     }
 
     @Override
@@ -78,4 +86,15 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onGetConfigSuccess(AdConfig config) {
+        if(config != null){
+            SysConfig.getInstance().setAdConfig(config);
+        }
+    }
+
+    @Override
+    public void onFaile(int code, String message, int type) {
+
+    }
 }

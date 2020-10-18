@@ -3,6 +3,7 @@ package com.csj.bestidphoto.base;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
@@ -29,12 +30,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.csj.bestidphoto.R;
+import com.csj.bestidphoto.ad.NativeInteractionAd;
+import com.csj.bestidphoto.comm.SysConfig;
+import com.csj.bestidphoto.ui.AllPhotoModelListActivity;
+import com.csj.bestidphoto.ui.PhotoCropActivity;
+import com.csj.bestidphoto.ui.PhotoEditorActivity;
+import com.csj.bestidphoto.ui.PhotoStandardModelDetailActivity;
 import com.csj.bestidphoto.ui.dialog.LoadingDialogFm;
 import com.csj.bestidphoto.utils.StatusCompat;
 import com.csj.bestidphoto.utils.Timer_Task;
 import com.csj.bestidphoto.utils.ToastUtil;
 import com.google.gson.Gson;
 import com.maoti.lib.utils.LogUtil;
+import com.maoti.lib.utils.Utils;
 import com.sowell.mvpbase.presenter.BasePresenter;
 import com.sowell.mvpbase.view.MvpBaseActivity;
 
@@ -112,7 +120,30 @@ public abstract class BaseActivity<P extends BasePresenter> extends MvpBaseActiv
         parent.addView(main, rlp);
     }
 
-//    /**
+    private NativeInteractionAd mNativeInteractionAd;//插屏广告
+    private boolean isFirstIn = true;
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(isFirstIn){
+            isFirstIn = false;
+            showNativeInteractionAd(this);
+        }
+    }
+
+    private void showNativeInteractionAd(Activity act){
+        if(act instanceof PhotoCropActivity || act instanceof PhotoStandardModelDetailActivity || act instanceof AllPhotoModelListActivity || act instanceof PhotoEditorActivity){
+            if(SysConfig.getInstance().getAdConfig() != null){
+                mNativeInteractionAd = new NativeInteractionAd(this);
+                int w_px = Utils.getWindowWidth(getContext());
+                int w_dp = 2 * Utils.pxToDip(getContext(),w_px) / 3;
+                mNativeInteractionAd.loadExpressAd(SysConfig.getInstance().getAdConfig().getFloatscreenid(),w_dp,w_dp * 3 / 2);
+//            mNativeInteractionAd.loadExpressAd(SysConfig.getInstance().getAdConfig().getFloatscreenid(),600,900);
+            }
+        }
+    }
+
+    //    /**
 //     * 显示网络状态
 //     *
 //     * @param isShow
@@ -698,6 +729,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends MvpBaseActiv
     public void onDestroy() {
         super.onDestroy();
         try {
+            if(mNativeInteractionAd != null){
+                mNativeInteractionAd.onDestroy();
+            }
             if (EventBus.getDefault().isRegistered(this)) {
                 EventBus.getDefault().unregister(this);
             }

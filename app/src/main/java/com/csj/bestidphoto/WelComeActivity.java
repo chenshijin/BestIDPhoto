@@ -21,8 +21,11 @@ import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.csj.bestidphoto.ad.TTAdManagerHolder;
+import com.csj.bestidphoto.comm.AdConfig;
 import com.csj.bestidphoto.comm.Config;
 import com.csj.bestidphoto.comm.SPKey;
+import com.csj.bestidphoto.comm.SysConfig;
+import com.csj.bestidphoto.model.Retrofit;
 import com.csj.bestidphoto.permission.PermissionsActivity;
 import com.csj.bestidphoto.permission.PermissionsChecker;
 import com.csj.bestidphoto.utils.PrefManager;
@@ -30,6 +33,8 @@ import com.csj.bestidphoto.utils.StatusBarUtil;
 import com.csj.bestidphoto.utils.StatusCompat;
 import com.csj.bestidphoto.utils.ToastUtil;
 import com.lzy.imagepicker.util.BitmapUtil;
+import com.maoti.lib.net.ResponseResult;
+import com.maoti.lib.net.interceptor.DefaultObserver;
 import com.maoti.lib.utils.LogUtil;
 import com.maoti.lib.utils.Utils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -122,7 +127,7 @@ public class WelComeActivity extends Activity {
 //                .build();
 //        } else {
         adSlot = new AdSlot.Builder()
-                .setCodeId(Config.TOUTIAO_SPLASH_ID)
+                .setCodeId(SysConfig.getInstance().getAdConfig().getSplashid())
                 .setSupportDeepLink(true)
                 .setImageAcceptedSize(1080, 1920)
                 .build();
@@ -275,11 +280,11 @@ public class WelComeActivity extends Activity {
                         startPermissionsActivity();
                     } else {
                         //TODO 权限已打开
-                        showAd();
+                        getConfig();
                     }
                 }else{
                     TTAdManagerHolder.get().requestPermissionIfNecessary(getApplicationContext());
-                    showAd();
+                    getConfig();
                 }
             }
 
@@ -290,6 +295,36 @@ public class WelComeActivity extends Activity {
             @Override
             public void onComplete() {
 
+            }
+        });
+    }
+
+    public void getConfig() {
+
+        Retrofit.getConfig(new DefaultObserver<AdConfig>() {
+            @Override
+            public void onSuccess(ResponseResult<AdConfig> result) {
+                try {
+                    AdConfig config = result.getData();
+                    if(config != null){
+                        SysConfig.getInstance().setAdConfig(config);
+                        if(config.isAdvertising()){
+                            showAd();
+                        }else{
+                            doAdFinish();
+                        }
+                    }else{
+                        doAdFinish();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    doAdFinish();
+                }
+            }
+
+            @Override
+            public void onException(int code, String eMsg) {
+                doAdFinish();
             }
         });
     }
@@ -313,7 +348,7 @@ public class WelComeActivity extends Activity {
         } else if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_GRANTED) {
             //TODO 打开权限后执行
             LogUtil.i(TAG, "=打开权限后执行2=>");
-            showAd();
+            getConfig();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

@@ -1,6 +1,7 @@
 package com.csj.bestidphoto.model;
 
 
+import com.csj.bestidphoto.comm.AdConfig;
 import com.csj.bestidphoto.model.response.EditPhotoResp;
 import com.lamfire.json.JSON;
 import com.maoti.lib.net.RetrofitUtil;
@@ -41,6 +42,16 @@ public class Retrofit extends RetrofitUtil {
         getGsonRetrofitNoCache()
                 .create(ApiService.class)
                 .beautyPhoto(type,value,getJsonBody(json.toString()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    public static void getConfig(DefaultObserver<AdConfig> observer) {
+
+        getGsonRetrofitNoCache()
+                .create(ApiService.class)
+                .getConfig()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
