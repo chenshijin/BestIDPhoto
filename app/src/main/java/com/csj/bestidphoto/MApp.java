@@ -257,9 +257,9 @@ public class MApp extends MultiDexApplication {
     }
 
     /**
-     * 关闭Activity列表中的所有Activity
+     * 退出app
      */
-    public void finishActivity() {
+    public static void exitApp() {
 //        for (Activity activity : list) {
 //            if (null != activity) {
 //                activity.finish();
