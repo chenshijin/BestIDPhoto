@@ -16,12 +16,15 @@ import com.csj.bestidphoto.ad.TTAdManagerHolder;
 import com.csj.bestidphoto.base.BaseActivity;
 import com.csj.bestidphoto.comm.AdConfig;
 import com.csj.bestidphoto.comm.Config;
+import com.csj.bestidphoto.comm.SPKey;
 import com.csj.bestidphoto.comm.SysConfig;
 import com.csj.bestidphoto.ui.PhotoEditorActivity;
+import com.csj.bestidphoto.ui.dialog.PrivacyDialog;
 import com.csj.bestidphoto.ui.home.HomeViewModel;
 import com.csj.bestidphoto.ui.home.bean.NearHotBean;
 import com.csj.bestidphoto.ui.presenter.ConfigPresenter;
 import com.csj.bestidphoto.ui.presenter.GetConfigCallBack;
+import com.csj.bestidphoto.utils.PrefManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
@@ -60,6 +63,16 @@ public class MainActivity extends BaseActivity<ConfigPresenter> implements GetCo
 
         if(SysConfig.getInstance().getAdConfig() == null){
             getPresenter().getConfig();
+        }
+
+        showPrivacyPolicy();
+    }
+
+    private void showPrivacyPolicy(){
+        boolean showPolicy = PrefManager.getPrefBoolean(SPKey._PRIVACY_POLICY_AGREE,false);
+        if(!showPolicy){
+            PrivacyDialog pDialog = new PrivacyDialog();
+            pDialog.show(getSupportFragmentManager(), "showPolicy");
         }
     }
 

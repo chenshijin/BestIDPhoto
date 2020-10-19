@@ -4,11 +4,89 @@
     android:layout_height="match_parent"
     >
 
-    <TextView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/closeIv"
+        android:background="@drawable/bg_privacy">
+
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="隐私政策"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/checkTv"
+            android:layout_below="@+id/titleTv"
+            android:layout_marginTop="16dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/bg_privacy_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="14dp"
+                    android:text="@string/policy_content"
+                    android:lineSpacingExtra="3dp"
+                    android:textColor="#202940"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+        </ScrollView>
+
+        <CheckBox
+            android:id="@+id/checkTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/agreeTv"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="25dp"
+            android:text="已阅读并同意该隐私协议"
+            android:textColor="#202940"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/agreeTv"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_privacy_agree_bt"
+            android:gravity="center"
+            android:text="同意政策"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/closeIv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="隐私政策"
-        android:textSize="15sp"
+        android:src="@mipmap/close"
+        android:padding="6dp"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         />
-
 </RelativeLayout>
+
