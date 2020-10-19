@@ -194,7 +194,7 @@ public class WelComeActivity extends Activity {
 
                     @Override
                     public void onAdSkip() {
-                        LogUtil.i(TAG, "开屏广告跳过");
+                        LogUtil.i(TAG, "config 开屏广告跳过");
                         adSplashContainer.setVisibility(View.GONE);
                         doAdFinish();
                     }
@@ -280,10 +280,12 @@ public class WelComeActivity extends Activity {
                         startPermissionsActivity();
                     } else {
                         //TODO 权限已打开
+                        LogUtil.i(TAG,"config 权限已打开");
                         getConfig();
                     }
                 }else{
                     TTAdManagerHolder.get().requestPermissionIfNecessary(getApplicationContext());
+                    LogUtil.i(TAG,"config 权限已打开2");
                     getConfig();
                 }
             }
@@ -307,6 +309,7 @@ public class WelComeActivity extends Activity {
                 try {
                     AdConfig config = result.getData();
                     if(config != null){
+                        LogUtil.i(TAG,"config isAdvertising =" + config.isAdvertising());
                         SysConfig.getInstance().setAdConfig(config);
                         if(config.isAdvertising()){
                             showAd();
@@ -314,10 +317,12 @@ public class WelComeActivity extends Activity {
                             doAdFinish();
                         }
                     }else{
+                        LogUtil.i(TAG,"config = null");
                         doAdFinish();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    LogUtil.i(TAG,"config 异常");
                     doAdFinish();
                 }
             }
@@ -331,6 +336,7 @@ public class WelComeActivity extends Activity {
 
     public void doAdFinish() {
         boolean showGuide = PrefManager.getPrefBoolean(SPKey._SHOW_GUIDE, true);
+        LogUtil.i(TAG,"config showGuide = " + showGuide);
         if (showGuide) {
             startActivity(new Intent(this, GuidePageActivity.class));
         } else {
@@ -347,7 +353,7 @@ public class WelComeActivity extends Activity {
             this.finish();
         } else if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_GRANTED) {
             //TODO 打开权限后执行
-            LogUtil.i(TAG, "=打开权限后执行2=>");
+            LogUtil.i(TAG,"config =打开权限后执行2=>");
             getConfig();
         }
         super.onActivityResult(requestCode, resultCode, data);

@@ -4,9 +4,85 @@ apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+
+    //如果version.properties文件可读则执行操作
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.canRead()) {
+        //载入version.properties
+        Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        //从version.properties根据关键字"VERSION_CODE"取Integer
+        def verCode = versionProps['VERSION_CODE'].toInteger()
+        //判断build模式，如果是发布模式（':app:assembleRelease'）则自增版本号，并且写回version.properties文件中
+        def runTasks = gradle.startParameter.taskNames
+
+        println "runTasks array : ${runTasks}"
+//        if (Consts.buildTypeInnertest in runTasks) {
+        if(":app:assembleRelease" in runTasks) {
+            versionProps['VERSION_CODE'] = (++verCode).toString()
+            versionProps.store(versionPropsFile.newWriter(), null)
+        }
+        //使用自增后的版本号为为生成的APK命名
+        def verName = "1.0."+versionProps['VERSION_CODE'].toString()
+//        applicationVariants.all { variant ->
+//            if (variant.buildType.name.equals('release')) {
+//                variant.outputs.each { output ->
+//                    def appName = 'pm_'
+//                    def oldFile = output.outputFile
+//                    def releaseApkName
+//                    //由于还是测试版本，所以用"0."开头，每次发布自增0.001，如有其他需求，可自行修改计算方法及前后缀即可
+//                    releaseApkName = appName + "0." + verCode + '.APK'
+//                    output.outputFile = new File(oldFile.parent, releaseApkName)
+//                }
+//            }
+//        }
+
+        //自定义APK名称,多渠道打包
+        android.applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+////            打包时开启下面注释可以统一打包到同一个路径,如果USB连线调试出现问题可先注释
+////            if (!variant.buildType.isDebuggable()) {
+////                variant.getPackageApplicationProvider().get().outputDirectory = new File(project.rootDir.absolutePath + "/apk_release_" + "${V}")
+////            }else{
+////                variant.getPackageApplicationProvider().get().outputDirectory = new File(project.rootDir.absolutePath + "/apk_debug_" + "${V}")
+////            }
+//            variant.productFlavors.each { flavor ->
+//                def separator = "_"
+//                def buildType = variant.variantData.variantConfiguration.buildType.name
+//                def versionName = variant.versionName
+////                def apkName = "debug_" + "${V}" + separator + versionName + separator + flavor.name + ".apk"
+//                def apkName = "MaoTi_" + versionName + "_" + releaseTime() + "_debug.apk"
+//                if (buildType == "release") {
+////                    apkName = "release_" + "${V}" + separator + versionName + separator + flavor.name + ".apk"
+//                    apkName = "MaoTi_" + versionName + "_" + releaseTime() + "_release.apk"
+//                }
+//                output.outputFileName = apkName
+//            }
+
+                def outputFile = output.outputFile
+                if (outputFile != null && outputFile.name.endsWith('release.apk')) {
+                    def fileName = "BestId_${verName}_${releaseTime()}_release.apk"
+                    outputFileName = fileName
+                } else if (outputFile != null && outputFile.name.endsWith('innertest.apk')) {
+                    def fileName = "BestId_${verName}_${releaseTime()}_innertest.apk"
+                    outputFileName = fileName
+                } else {
+                    def fileName = "BestId_${verName}_${releaseTime()}_debug.apk"
+                    outputFileName = fileName
+                }
+
+            }
+        }
+    } else {
+        throw new GradleException("Could not read version.properties!")
+    }
 
     defaultConfig {
         applicationId "com.csj.bestidphoto"
@@ -21,11 +97,28 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    signingConfigs {
+        bestid {
+            storeFile file('../../BestIDPhoto/bestidphoto.keystore')
+            storePassword "best061"
+            keyAlias "bestid"
+            keyPassword "best061"
         }
+    }
+
+    buildTypes {
+        release {//阿里云服务器
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.bestid
+        }
+
+        debug {//开发服务器
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.bestid
+        }
+
     }
 
     compileOptions {
