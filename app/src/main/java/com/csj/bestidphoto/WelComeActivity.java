@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
@@ -21,6 +24,7 @@ import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.csj.bestidphoto.ad.TTAdManagerHolder;
+import com.csj.bestidphoto.base.BaseActivity;
 import com.csj.bestidphoto.comm.AdConfig;
 import com.csj.bestidphoto.comm.Config;
 import com.csj.bestidphoto.comm.SPKey;
@@ -31,6 +35,7 @@ import com.csj.bestidphoto.permission.PermissionsChecker;
 import com.csj.bestidphoto.utils.PrefManager;
 import com.csj.bestidphoto.utils.StatusBarUtil;
 import com.csj.bestidphoto.utils.StatusCompat;
+import com.csj.bestidphoto.utils.Timer_Task;
 import com.csj.bestidphoto.utils.ToastUtil;
 import com.lzy.imagepicker.util.BitmapUtil;
 import com.maoti.lib.net.ResponseResult;
@@ -38,6 +43,8 @@ import com.maoti.lib.net.interceptor.DefaultObserver;
 import com.maoti.lib.utils.LogUtil;
 import com.maoti.lib.utils.Utils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,6 +64,9 @@ public class WelComeActivity extends Activity {
     private int dp36 = Utils.dipToPx(MApp.getInstance(), 22F);
     private PermissionsChecker mPermissionsChecker; // 权限检测器
     private static final int REQUEST_CODE = 0; // 请求码
+    private Timer_Task ttTask;
+    private MyHandler handler;
+    private final static long DELAY = 3000L;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +78,8 @@ public class WelComeActivity extends Activity {
     }
 
     public void initData(@Nullable Bundle savedInstanceState) {
+        handler = new MyHandler(this);
+        ttTask = new Timer_Task(handler,100,DELAY,null,1);
         mTTAdNative = TTAdManagerHolder.get().createAdNative(this);
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             finish();
@@ -314,22 +326,22 @@ public class WelComeActivity extends Activity {
                         if(config.isAdvertising()){
                             showAd();
                         }else{
-                            doAdFinish();
+                            ttTask.startTimer();
                         }
                     }else{
                         LogUtil.i(TAG,"config = null");
-                        doAdFinish();
+                        ttTask.startTimer();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                     LogUtil.i(TAG,"config 异常");
-                    doAdFinish();
+                    ttTask.startTimer();
                 }
             }
 
             @Override
             public void onException(int code, String eMsg) {
-                doAdFinish();
+                ttTask.startTimer();
             }
         });
     }
@@ -347,6 +359,14 @@ public class WelComeActivity extends Activity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(ttTask != null){
+            ttTask.stopTimer();
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // 拒绝时, 关闭页面, 缺少主要权限, 无法运行
         if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_DENIED) {
@@ -357,6 +377,28 @@ public class WelComeActivity extends Activity {
             getConfig();
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private static class MyHandler extends Handler {
+        private WeakReference<Activity> mWeakReference;
+
+        public MyHandler(Activity act) {
+            mWeakReference = new WeakReference<Activity>(act);
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            Activity act = mWeakReference.get();
+            switch (msg.what) {
+                case 100:
+                    if(act != null){
+                        ((WelComeActivity)act).doAdFinish();
+                    }
+                    break;
+
+            }
+        }
     }
 
 }

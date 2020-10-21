@@ -18,6 +18,7 @@
     <item name="glide_tag" type="id" />
     <item name="photo_edit_save" type="id" />
     <item type="id" name="ad_byte" />
+    <item type="id" name="about" />
 <!--    <item name="three_share" type="id" />-->
 <!--    <item name="stateView" type="id" />-->
 <!--    <item name="drawable_tag" type="id" />-->

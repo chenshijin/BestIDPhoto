@@ -40,5 +40,8 @@ public final class Config {
     public static final String TOUTIAO_REWARD_NAME = "免费制作证件照次数";//激励视频-奖励名称
     public static final int TOUTIAO_REWARD_AMOUNT = 1;//激励视频-奖励数量
 
+    public static final String APP_DATA = Environment.getExternalStorageDirectory().getPath() + "/"+ "bestIdPhoto";// APP 所有缓存地址
+    public static final String PHOTOS = APP_DATA + "/" + "photos/";//缓存制作好的照片(在相册可查看)
+
 
 }

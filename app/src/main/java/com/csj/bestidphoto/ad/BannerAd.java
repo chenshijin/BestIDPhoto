@@ -27,15 +27,14 @@ public class BannerAd {
     private boolean mHasShowDownloadActive = false;
 
 
-    public BannerAd(Activity act,AdSizeModel bannerSize,ViewGroup mExpressContainer){
+    public BannerAd(Activity act, ViewGroup mExpressContainer){
         this.act = act;
         //step2:创建TTAdNative对象，createAdNative(Context context) banner广告context需要传入Activity对象
         mTTAdNative = TTAdManagerHolder.get().createAdNative(act);
         this.mExpressContainer = mExpressContainer;
-        loadExpressAd(bannerSize.codeId, bannerSize.width, bannerSize.height);
     }
 
-    private void loadExpressAd(String codeId, int expressViewWidth, int expressViewHeight) {
+    public void loadExpressAd(String codeId, int expressViewWidth, int expressViewHeight) {
         mExpressContainer.removeAllViews();
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
         AdSlot adSlot = new AdSlot.Builder()

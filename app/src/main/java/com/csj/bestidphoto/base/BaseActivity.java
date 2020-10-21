@@ -30,6 +30,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.csj.bestidphoto.R;
+import com.csj.bestidphoto.ad.AdUtil;
 import com.csj.bestidphoto.ad.NativeInteractionAd;
 import com.csj.bestidphoto.comm.SysConfig;
 import com.csj.bestidphoto.ui.AllPhotoModelListActivity;
@@ -97,6 +98,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends MvpBaseActiv
             }
         }
 
+        mHandler = new MyHandler(this);
+
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
@@ -127,7 +130,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends MvpBaseActiv
         super.onWindowFocusChanged(hasFocus);
         if(isFirstIn){
             isFirstIn = false;
-            showNativeInteractionAd(this);
+            if(AdUtil.canShowAd()){
+                showNativeInteractionAd(this);
+            }
         }
     }
 

@@ -6,4 +6,14 @@
 
     <include layout="@layout/view_ad"></include>
 
+    <ImageView
+        android:id="@+id/logoIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/logo_app"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22dp"
+        />
+
 </RelativeLayout>

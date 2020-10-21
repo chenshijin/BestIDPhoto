@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Message;
 import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,14 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.csj.bestidphoto.MApp;
 import com.csj.bestidphoto.R;
+import com.csj.bestidphoto.ad.AdUtil;
 import com.csj.bestidphoto.ad.RewardVideoAd;
 import com.csj.bestidphoto.base.BaseActivity;
 import com.csj.bestidphoto.comm.Config;
@@ -28,6 +31,7 @@ import com.csj.bestidphoto.ui.home.bean.NearHotBean;
 import com.csj.bestidphoto.ui.mine.bean.MinePhotoBean;
 import com.csj.bestidphoto.ui.presenter.EditPhotoCallBack;
 import com.csj.bestidphoto.ui.presenter.EditPhotoPresenter;
+import com.csj.bestidphoto.utils.BitmapUtil;
 import com.csj.bestidphoto.utils.JavaUtil;
 import com.csj.bestidphoto.utils.PrefManager;
 import com.csj.bestidphoto.utils.ToastUtil;
@@ -38,6 +42,7 @@ import com.csj.bestidphoto.view.PhotoCutBar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lamfire.utils.StringUtils;
+import com.lamfire.utils.Threads;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.maoti.lib.utils.LogUtil;
@@ -208,31 +213,20 @@ public class PhotoEditorActivity extends BaseActivity<EditPhotoPresenter> implem
                     finish();
                     break;
                 case R.id.photo_edit_save:
-                    new RewardVideoAd(PhotoEditorActivity.this,
-                            SysConfig.getInstance().getAdConfig().getRewardid(),
-                            SysConfig.getInstance().getAdConfig().getUserid(),
-                            SysConfig.getInstance().getAdConfig().getRewardname(),
-                            SysConfig.getInstance().getAdConfig().getRewardcnt(), 1, new RewardVideoAd.AdRewardListener() {
-                        @Override
-                        public void onAdFinish() {
-                            String cacheData = PrefManager.getPrefString(SPKey._PHOTOS_RECORD, null);
-                            List<MinePhotoBean> datas = new ArrayList<>();
-                            if (!StringUtils.isEmpty(cacheData)) {
-                                datas.addAll(new Gson().fromJson(cacheData, new TypeToken<List<MinePhotoBean>>() {
-                                }.getType()));
+                    if(AdUtil.canShowAd()){
+                        new RewardVideoAd(PhotoEditorActivity.this,
+                                SysConfig.getInstance().getAdConfig().getRewardid(),
+                                SysConfig.getInstance().getAdConfig().getUserid(),
+                                SysConfig.getInstance().getAdConfig().getRewardname(),
+                                SysConfig.getInstance().getAdConfig().getRewardcnt(), 1, new RewardVideoAd.AdRewardListener() {
+                            @Override
+                            public void onAdFinish() {
+                                save();
                             }
-                            if (photoModelBean != null) {
-                                MinePhotoBean photoBean = JavaUtil.modelAconvertoB(photoModelBean, MinePhotoBean.class);
-                                photoBean.setPhotoUrl(imgPath);
-                                datas.add(photoBean);
-                                PrefManager.setPrefString(SPKey._PHOTOS_RECORD, new Gson().toJson(datas));
-                                ToastUtil.showShort("已保存!");
-                                finish();
-                            } else {
-                                ToastUtil.showShort("保存失败!");
-                            }
-                        }
-                    }).loadAd();
+                        }).loadAd();
+                    }else{
+                        save();
+                    }
                     break;
                 case R.id.cutCb:
                 case R.id.beautyCb:
@@ -242,6 +236,65 @@ public class PhotoEditorActivity extends BaseActivity<EditPhotoPresenter> implem
             }
         }
     };
+
+    private void save(){
+        showProgress("正在保存...");
+        String cacheData = PrefManager.getPrefString(SPKey._PHOTOS_RECORD, null);
+        List<MinePhotoBean> datas = new ArrayList<>();
+        if (!StringUtils.isEmpty(cacheData)) {
+            datas.addAll(new Gson().fromJson(cacheData, new TypeToken<List<MinePhotoBean>>() {
+            }.getType()));
+        }
+        if (photoModelBean != null) {
+            MinePhotoBean photoBean = JavaUtil.modelAconvertoB(photoModelBean, MinePhotoBean.class);
+            photoBean.setPhotoUrl(imgPath);
+            datas.add(photoBean);
+            PrefManager.setPrefString(SPKey._PHOTOS_RECORD, new Gson().toJson(datas));
+
+            ImageLoaderHelper.loadImageSimpleTargetOnly(imgPath, new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    Threads.startup(new Runnable() {
+                        @Override
+                        public void run() {
+                            String fileName = new StringBuilder(photoBean.getPhotoModelName()).
+                                    append("_").
+                                    append(photoBean.getPxW()).
+                                    append("x").
+                                    append(photoBean.getPxH()).
+                                    append("_").
+                                    append(String.valueOf(System.currentTimeMillis())).
+                                    append(".jpg")
+                                    .toString();
+                            BitmapUtil.saveMyBitmap(Config.PHOTOS,fileName,resource,100,true);
+                            sendMessage(100,Config.PHOTOS + fileName);
+                        }
+                    });
+                }
+
+                @Override
+                public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                    super.onLoadFailed(errorDrawable);
+                    hideProgress();
+                    ToastUtil.showShort("保存失败!");
+                }
+            });
+        } else {
+            ToastUtil.showShort("保存失败!");
+        }
+
+    }
+
+    public void processMessage(Message message){
+        switch (message.what){
+            case 100:
+                String path = (String)message.obj;
+                hideProgress();
+                ToastUtil.showLong("图片已保存到路径: " + path + "\n在系统相册可查看!");
+                finish();
+                break;
+        }
+    }
 
     private void checkCb(int id) {
         cutCb.setChecked(id == R.id.cutCb ? true : false);

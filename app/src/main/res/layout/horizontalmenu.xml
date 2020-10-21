@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemParent"
+    android:layout_width="match_parent"
+    android:background="@color/item_background"
+    android:layout_height="58dp">
+
+    <ImageView
+        android:id="@+id/menuLogoIv"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/menuTv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_toLeftOf="@+id/jtLL"
+        android:layout_toRightOf="@+id/menuLogoIv"
+        android:ellipsize="marquee"
+        android:gravity="center_vertical"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:textColor="#333333"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:id="@+id/jtLL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/msgTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textSize="13sp"
+            android:textColor="@color/color_border_text"
+            android:layout_marginRight="8dp" />
+        <ImageView
+            android:id="@+id/head"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginRight="15dp"
+            android:visibility="gone"
+            />
+        <ImageView
+            android:id="@+id/jtIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/wode_icon_gengduo"
+            />
+    </LinearLayout>
+
+    <View
+        style="@style/line_h_between"
+        android:layout_alignLeft="@+id/menuTv"
+        android:layout_alignRight="@+id/jtLL"
+        android:layout_alignParentBottom="true"></View>
+
+</RelativeLayout>

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.csj.bestidphoto.R;
+import com.csj.bestidphoto.ad.AdUtil;
 import com.csj.bestidphoto.ad.BannerAd;
 import com.csj.bestidphoto.comm.SysConfig;
 import com.csj.bestidphoto.ui.AllPhotoModelListActivity;
@@ -80,11 +81,12 @@ public class HomelHeaderView extends FrameLayout {
             list.add(bean);
         }
 
-        if(SysConfig.getInstance().getAdConfig() != null){
+        if(AdUtil.canShowAd()){
             int w_px = Utils.getWindowWidth(getContext());
             int w_dp = Utils.pxToDip(getContext(),w_px);
             BannerAd.AdSizeModel admodel = new BannerAd.AdSizeModel("690*388", w_dp, w_dp * 388 / 690, SysConfig.getInstance().getAdConfig().getBannerid());
-            mBannerAd = new BannerAd((Activity) getContext(),admodel,adContainerFl);
+            mBannerAd = new BannerAd((Activity) getContext(), adContainerFl);
+            mBannerAd.loadExpressAd(admodel.codeId, admodel.width, admodel.height);
         }
 
 //        bannerNormal.setPages(list, (MZHolderCreator<BannerPaddingViewHolder>) () -> new BannerPaddingViewHolder());

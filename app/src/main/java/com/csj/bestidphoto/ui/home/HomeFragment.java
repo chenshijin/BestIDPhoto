@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.csj.bestidphoto.R;
 import com.csj.bestidphoto.base.BaseFragment;
+import com.csj.bestidphoto.ui.AboutActivity;
 import com.csj.bestidphoto.ui.AllPhotoModelListActivity;
 import com.csj.bestidphoto.ui.PhotoEditorActivity;
 import com.csj.bestidphoto.ui.PhotoStandardModelDetailActivity;
@@ -49,6 +50,7 @@ public class HomeFragment extends BaseFragment {
         homelHeaderView = new HomelHeaderView(requireActivity());
 
         titleBar.setTitle("主页");
+        titleBar.addRightTextButton("关于", R.id.about);
         test();
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -71,8 +73,25 @@ public class HomeFragment extends BaseFragment {
                 homeViewModel.setPhotoModel(photoModel);
             }
         });
+
+        initListener();
         return null;
     }
+
+    private void initListener(){
+        titleBar.findViewById(R.id.about).setOnClickListener(mainOnClickListener);
+    }
+
+    View.OnClickListener mainOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.about:
+                    AboutActivity.startAboutActivity(requireActivity());
+                    break;
+            }
+        }
+    };
 
     private void test(){
         String[] names = new String[]{"一寸","二寸","小一寸","小二寸"};
