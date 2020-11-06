@@ -58,7 +58,7 @@ public class AboutContentActivity extends BaseActivity {
         String title = "";
         switch (getModel()){
             case 1:
-                title = "便民证件照应用隐私政策";
+                title = getString(R.string.app_name) + "\u3000应用隐私政策";
                 contentTv.setText(getResources().getString(R.string.policy_content));
                 break;
             case 2:

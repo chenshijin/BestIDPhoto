@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.maoti.lib.event.PushMsgEvent;
 import com.maoti.lib.event.ClearUnReadEvent;
+import com.maoti.lib.utils.LogUtil;
 import com.maoti.libbase.BuildConfig;
 import com.google.gson.JsonParseException;
 import com.maoti.lib.BaseApplication;
@@ -52,15 +53,15 @@ public abstract class DefaultObserver<T> implements Observer<ResponseResult<T>> 
     public void onError(Throwable e) {
 
         if (e instanceof HttpException) {     //   HTTP错误
-            Log.e(NetConstant.logTag,"网络错误1" + e.getMessage());
+            LogUtil.i(NetConstant.logTag,"网络错误1" + e.getMessage());
             onException(NetConstant.BAD_NETWORK, "网络错误");
         } else if (e instanceof IOException) {   //   连接错误
-            Log.e(NetConstant.logTag,"链接错误2" + e.getMessage());
+            LogUtil.i(NetConstant.logTag,"链接错误2" + e.getMessage());
             onException(NetConstant.CONNECT_ERROR, "网络错误");
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException) {   //  解析错误
-            Log.e(NetConstant.logTag,"解析错误3" + e.toString());
+            LogUtil.i(NetConstant.logTag,"解析错误3" + e.toString());
             e.printStackTrace();
             onException(NetConstant.PARSE_ERROR, "解析错误");
         } else if (e instanceof ServerResponseException) {
@@ -72,7 +73,7 @@ public abstract class DefaultObserver<T> implements Observer<ResponseResult<T>> 
             ApiException apiException = (ApiException) e;
             int code = apiException.getErrorCode();
 
-            if(BuildConfig.DEBUG&&code!=1){
+            if(BuildConfig.IS_DEBUG&&code != 1){
                 Toast.makeText(BaseApplication.getContext(),"[错误码:"+code+" 错误消息:"+e.getMessage()+"]",Toast.LENGTH_LONG).show();
             }
 
@@ -90,12 +91,12 @@ public abstract class DefaultObserver<T> implements Observer<ResponseResult<T>> 
 //                SPfUtil.getInstance().setBoolean(SPFKey.IsSingIN,false);
 //                EventBus.getDefault().post(new EventEntity(EventBusKey.logout,"",null));
 //            }
-            Log.e(NetConstant.logTag,"解析错误" + e.toString());
+            LogUtil.i(NetConstant.logTag,"解析错误" + e.toString());
             onException(code, e.getMessage());
         } else if (e instanceof NoDataExceptionException) {
             onSuccess(null);
         } else {
-            Log.e(NetConstant.logTag,Objects.requireNonNull(e.getMessage()));
+            LogUtil.i(NetConstant.logTag,Objects.requireNonNull(e.getMessage()));
             onException(NetConstant.Exception, "未知异常");
         }
 

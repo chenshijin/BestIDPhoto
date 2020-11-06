@@ -39,11 +39,11 @@ public class HttpURL {
 //        if (BuildConfig.IS_DEBUG) { //测试版
             try{
                 String url= SPfUtil.getInstance().getString(SPFKey.http_url);
-                if(url!=null&&url.startsWith("http")){
-                    BASE_URL=url;
+                if(url != null && url.startsWith("http")){
+                    BASE_URL = url;
                 }else{
                     //如果没有,默认给一个合法的测试服务器地址
-                    BASE_URL=BuildConfig.BASE_URL;
+                    BASE_URL = BuildConfig.BASE_URL;
                 }
             }catch (Exception e){
                 e.printStackTrace();

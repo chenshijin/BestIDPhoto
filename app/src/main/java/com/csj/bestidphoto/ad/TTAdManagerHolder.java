@@ -8,6 +8,7 @@ import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.csj.bestidphoto.BuildConfig;
 import com.csj.bestidphoto.MApp;
+import com.csj.bestidphoto.R;
 import com.csj.bestidphoto.comm.Config;
 import com.csj.bestidphoto.comm.SysConfig;
 
@@ -42,7 +43,7 @@ public class TTAdManagerHolder {
         return  new TTAdConfig.Builder()
                 .appId(Config.TOUTIAO_APPID)
                 .useTextureView(true) //使用TextureView控件播放视频,默认为SurfaceView,当有SurfaceView冲突的场景，可以使用TextureView
-                .appName(MApp.getInstance().APP_NAME)//GApp.instance().getResources().getString(R.string.app_name)
+                .appName(MApp.getInstance().getResources().getString(R.string.app_name))//
                 .titleBarTheme(TTAdConstant.TITLE_BAR_THEME_DARK)
                 .allowShowNotify(false) //是否允许sdk展示通知栏提示
                 .allowShowPageWhenScreenLock(true) //是否在锁屏场景支持展示广告落地页(已废弃,无效果)

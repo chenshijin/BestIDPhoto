@@ -8,6 +8,8 @@ def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
 
+def verName = "1.0.0"
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -30,7 +32,7 @@ android {
             versionProps.store(versionPropsFile.newWriter(), null)
         }
         //使用自增后的版本号为为生成的APK命名
-        def verName = "1.0."+versionProps['VERSION_CODE'].toString()
+        verName = "1.0."+versionProps['VERSION_CODE'].toString()
 //        applicationVariants.all { variant ->
 //            if (variant.buildType.name.equals('release')) {
 //                variant.outputs.each { output ->
@@ -89,7 +91,7 @@ android {
         minSdkVersion project.ext.minSdkVersion
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0.0"
+        versionName "${verName}"
         multiDexEnabled true
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true

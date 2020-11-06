@@ -32,11 +32,11 @@ public final class Config {
      * 头条穿山甲广告
      */
     public static final String TOUTIAO_USER_ID = "47525";//应用的用户id
-    public static final String TOUTIAO_APPID = "5111329";//应用appid
-    public static final String TOUTIAO_SPLASH_ID = "887391187";//开屏广告位
-    public static final String TOUTIAO_BANNER_ID = "945552629";//banner广告位
-    public static final String TOUTIAO_FLOATSCREEN_ID = "945552630";//插屏广告位
-    public static final String TOUTIAO_REWARD_ID = "945552631";//激励视频广告位
+    public static final String TOUTIAO_APPID = "5114918";//应用appid
+    public static final String TOUTIAO_SPLASH_ID = "887395618";//开屏广告位
+    public static final String TOUTIAO_BANNER_ID = "945570431";//banner广告位
+    public static final String TOUTIAO_FLOATSCREEN_ID = "945570433";//插屏广告位
+    public static final String TOUTIAO_REWARD_ID = "945570440";//激励视频广告位
     public static final String TOUTIAO_REWARD_NAME = "免费制作证件照次数";//激励视频-奖励名称
     public static final int TOUTIAO_REWARD_AMOUNT = 1;//激励视频-奖励数量
 
